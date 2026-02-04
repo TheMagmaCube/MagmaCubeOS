@@ -5,6 +5,7 @@ all:
 	ld -shared -Bsymbolic -nostdlib -L/home/hubert/os_source/lib/compiled_gnuefi -L/home/hubert/os_source/lib/manual_compiled_files_gnuefi -T/home/hubert/os_source/lib/gnuefi_source/gnu-efi-3.0.15/gnuefi/elf_x86_64_efi.lds /home/hubert/os_source/lib/gnuefi_source/gnu-efi-3.0.15/gnuefi/crt0-efi-x86_64.o /home/hubert/os_source/build/bootloader.o -o /home/hubert/os_source/build/bootloader.so /home/hubert/os_source/lib/manual_compiled_files_gnuefi/libgnuefi.a /home/hubert/os_source/lib/compiled_gnuefi/libefi.a
 	objcopy -j .text -j .sdata -j .data -j .rodata -j .rel -j .rela -j .reloc -j .dynamic -j .dynsym --target efi-app-x86_64 /home/hubert/os_source/build/bootloader.so /home/hubert/os_source/build/bootloader.efi
 	#Create img
+	rm -f /home/hubert/os_source/build/efiboot.img
 	truncate -s 512M /home/hubert/os_source/build/efiboot.img
 	sudo mkfs.fat -F32 /home/hubert/os_source/build/efiboot.img
 	sudo mmd -i /home/hubert/os_source/build/efiboot.img ::EFI
@@ -13,8 +14,9 @@ all:
 	mcopy -i /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/build/BOOTX64.EFI ::EFI/BOOT/
 	mcopy -i /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/build/kernel.elf ::
 
+	rm -f /home/hubert/os_source/qemu_test/efiboot.img
+	cp /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/qemu_test/efiboot.img
+
 	rm /home/hubert/os_source/build/BOOTX64.EFI
 	rm /home/hubert/os_source/build/bootloader.o
 	rm /home/hubert/os_source/build/bootloader.so
-	rm /home/hubert/os_source/build/kernel.o
-	rm /home/hubert/os_source/build/kernel.elf
