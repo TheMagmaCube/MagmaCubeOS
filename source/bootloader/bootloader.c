@@ -10,7 +10,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //Test correct compilation
     Print(L"image=%lx st=%lx\n", Image_handle, System_table);
-
     //Define variables
 
     EFI_STATUS Status;
@@ -36,7 +35,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Error efi: %r\n",Status);
         return Status;
     }
-
     //Download protocol SimpleFileSystem
 
     Status = uefi_call_wrapper(
@@ -68,13 +66,12 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     }
 
     //Open kernel.elf
-
     Status = uefi_call_wrapper(
             Root->Open,
             5,
             Root,
             &Kernel_file,
-            L"kernel.elf",
+            L"EFI\\BOOT\\kernel.elf",
             EFI_FILE_MODE_READ,
             0);
 
@@ -83,7 +80,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Error efi %r\n",Status);
         return Status;
     }
-
     //Checkpoint//
     //////////////
 
@@ -106,8 +102,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             //(void**)&Elf_header;
             //is to definie variable Elf_header the correct elf data
             //from kernel.elf file.
-
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
     //So we have the information about size of
     //kernel.elf in Elf_header variable
     //We can now start reading it
@@ -123,9 +121,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &size_of_kernel,
             Elf_header);
 
-
-
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
     //So if we load or header from Elf_header variable
     //to size_of_kernel variable (it must be done)
     //
@@ -136,7 +135,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //a crash later from that, so we do a exception.
 
     //  >> Exception <<
-
     if(Elf_header->e_ident[0] != 0x7F ||
         Elf_header->e_ident[1] != 'E' ||
         Elf_header->e_ident[2] != 'L' ||
@@ -146,10 +144,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Error massege from uefi get status: %r\n", EFI_LOAD_ERROR);
         return EFI_LOAD_ERROR;
     }
-
     //Now if we are there it sounds that header and probably kernel.elf file are vaild.
     //So we can now go back to allocate memory for kernel and load it to this sectors
-
 
     //Allocating memory for kernel headers in our memory
 
@@ -157,40 +153,41 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     UINTN Program_headers_size = Elf_header->e_phnum *
         sizeof(Elf64_Phdr);
-
     //Program_headers_size this is demand.
     //of the real value of size of headers program.
-
     Status = uefi_call_wrapper(
-            System_table->BootServices,
+            System_table->BootServices->AllocatePool,
             3,
             EfiLoaderData,
             Program_headers_size,
             (void**)&Program_headers);
 
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
     //Yup, thats block code above is responsible
     //for Allocating memory for Program headers,
     //not confuse with allocating kernel.elf.
     //We just alloacted only memory from kernel headers.
 
-
-
     //Now we jump to our file
     //Basically we need to SetPosition with Kernel_file variable
-
     Status = uefi_call_wrapper(
             Kernel_file->SetPosition,
             2,
             Kernel_file,
             Elf_header->e_phoff);
 
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
 
     //So we just did a jump basically to vaild memory of
     //our hard drive to kernel file thanks to Elf_headers.
 
     //Now if we are in right place we do a reading of kernel
-
     UINTN size = Program_headers_size;
     //Real size of program headers from demand before.
 
@@ -201,8 +198,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &size,
             Program_headers);
 
-
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
 
     //We just readed kernel.elf file from hard drive disk
     //valid sector.
@@ -234,7 +233,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             kernel_start = Program_headers[i].p_paddr;
         }
 
-        if(Program_headers->p_paddr + Program_headers[i]
+        if(Program_headers[i].p_paddr + Program_headers[i]
                 .p_memsz > kernel_end){
             kernel_end = Program_headers[i].p_paddr +
                 Program_headers[i].p_memsz;
@@ -243,12 +242,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     }
 
 
-
     //So now we know how much kernel weights in RAM.
     //We can allocate that memory in.
     //We give the job of select start address to the
     //uefi, we only definie how much not from what start.
-
 
     UINTN Kernel_size = kernel_end - kernel_start;
     //We calculate how much memory kernel needs/weight.
@@ -257,48 +254,54 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //We calcualte how much pages kernel needs.
 
     //Now we can allocate the memory.
-
     EFI_PHYSICAL_ADDRESS KernelAddr = kernel_start;
-
     Status = uefi_call_wrapper(
-            System_table->BootServices,
+            System_table->BootServices->AllocatePages,
             4,
             AllocateAddress,
             EfiLoaderData,
             pages,
             &KernelAddr);
 
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi: %r\n",Status);
+            return Status;
+    }
+
     //Now when we have allocated/reserved memory in RAM.
     //We can now inject kernel.elf to this sectors.
-
-
-
     for(UINTN i = 0; i < Elf_header->e_phnum; i++){
 
         if(Program_headers[i].p_type != PT_LOAD){
             continue;
         }
 
-        uefi_call_wrapper(
+        Status = uefi_call_wrapper(
                 Kernel_file->SetPosition,
                 2,
                 Kernel_file,
                 Program_headers[i].p_offset);
 
-        UINTN size = Program_headers[i].p_filesz;
+        if(EFI_ERROR(Status)){
+                Print(L"Error efi: %r\n",Status);
+                return Status;
+        }
 
-        uefi_call_wrapper(
+        UINTN size = Program_headers[i].p_filesz;
+        Status = uefi_call_wrapper(
                 Kernel_file->Read,
                 3,
                 Kernel_file,
                 &size,
                 (void*)(Program_headers[i].p_paddr));
 
+        if(EFI_ERROR(Status)){
+                Print(L"Error efi: %r\n",Status);
+                return Status;
+        }
+
     }
-
     //Now kernel is injected to RAM.
-
-
     //Checkpoint 2//
     ////////////////
 
@@ -322,14 +325,13 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //We will download Memory Map.
 
 
-
     UINTN mmap_size = 0;
     EFI_MEMORY_DESCRIPTOR * mmap = NULL;
     UINTN map_key;
     UINTN desc_size;
     UINT32 desc_version;
 
-    uefi_call_wrapper(
+    Status = uefi_call_wrapper(
             System_table->BootServices->
             GetMemoryMap,
             5,
@@ -338,7 +340,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &map_key,
             &desc_size,
             &desc_version);
-
     //Now when we just downloaded the memory map
     //We need to alocate it to RAM beacuse kernel need
     //to get it somehow
@@ -358,21 +359,22 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //this information (map)
 
     //Alloaction
-
-    uefi_call_wrapper(
+    Status = uefi_call_wrapper(
             System_table->BootServices->
-            GetMemoryMap,
-            5,
-            &mmap_size,
-            mmap,
-            &map_key,
-            &desc_size,
-            &desc_version);
+            AllocatePool,
+            3,
+            EfiLoaderData,
+            mmap_size,
+            //&map_key,
+            (void**)&mmap);
 
+    if (Status != EFI_BUFFER_TOO_SMALL) {
+        Print(L"Unexpected GetMemoryMap status: %r\n", Status);
+        return Status;
+    }
     //Inject memory map to alloacted sectors.
 
-
-    uefi_call_wrapper(
+    Status = uefi_call_wrapper(
             System_table->BootServices->
             GetMemoryMap,
             5,
@@ -382,18 +384,23 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &desc_size,
             &desc_version);
 
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi1: %r\n",Status);
+            return Status;
+    }
     //So after all this strugles and tasks
     //our EFI tired apliaction we close and
     //we are jumping to kernel.
-
-    uefi_call_wrapper(System_table->BootServices->
+    Status = uefi_call_wrapper(System_table->BootServices->
             ExitBootServices,
             2,
             Image_handle,
             map_key);
 
-
+    if(EFI_ERROR(Status)){
+            Print(L"Error efi2: %r\n",Status);
+            return Status;
+    }
     //This is jump if the kernel have the same ABI
     //like EFI so MSx86
     //to compile kernel for this you need to add flag
@@ -401,17 +408,14 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //"-mabi=ms"
     //typedef void (*kernel_entry_t)(void);
 
-    //kernel_entry_t KernelEntry = 
+    //kernel_entry_t KernelEntry =
         //(kernel_entry_t)Elf_header->e_entry;
     //KernelEntry();
 
 
-
-
-
+    Print(L"asd");
     //This is jump if the kernel have difrent ABI
     //like System-V
-
-    extern void kernel_stub(void);
-    kernel_stub();
+    extern void _start(void);
+    _start();
 }

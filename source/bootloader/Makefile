@@ -12,7 +12,7 @@ all:
 	sudo mmd -i /home/hubert/os_source/build/efiboot.img ::EFI/BOOT
 	mv /home/hubert/os_source/build/bootloader.efi /home/hubert/os_source/build/BOOTX64.EFI
 	mcopy -i /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/build/BOOTX64.EFI ::EFI/BOOT/
-	mcopy -i /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/build/kernel.elf ::
+	mcopy -i /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/build/kernel.elf ::EFI/BOOT/kernel.elf
 
 	rm -f /home/hubert/os_source/qemu_test/efiboot.img
 	cp /home/hubert/os_source/build/efiboot.img /home/hubert/os_source/qemu_test/efiboot.img
