@@ -229,13 +229,13 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             continue;
         }
 
-        if(Program_headers[i].p_paddr < kernel_start){
+        if(Program_headers[i].p_vaddr < kernel_start){
             kernel_start = Program_headers[i].p_paddr;
         }
 
-        if(Program_headers[i].p_paddr + Program_headers[i]
+        if(Program_headers[i].p_vaddr + Program_headers[i]
                 .p_memsz > kernel_end){
-            kernel_end = Program_headers[i].p_paddr +
+            kernel_end = Program_headers[i].p_vaddr +
                 Program_headers[i].p_memsz;
         }
 
@@ -250,11 +250,11 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     UINTN Kernel_size = kernel_end - kernel_start;
     //We calculate how much memory kernel needs/weight.
 
-    UINTN pages = (Kernel_size + 0xFFF) / 0x1000;
+    UINTN pages = (Kernel_size + EFI_PAGE_SIZE - 1) / EFI_PAGE_SIZE;
     //We calcualte how much pages kernel needs.
 
     //Now we can allocate the memory.
-    EFI_PHYSICAL_ADDRESS KernelAddr = 0; //kernel_start
+    EFI_PHYSICAL_ADDRESS KernelAddr = 0;
     Status = uefi_call_wrapper(
             System_table->BootServices->AllocatePages,
             4,
@@ -267,7 +267,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Print(L"Error efid: %r\n",Status);
             return Status;
     }
-    UINT64 slide = KernelAddr - kernel_start;
+    INT64 slide = KernelAddr - kernel_start;
     //Now when we have allocated/reserved memory in RAM.
     //We can now inject kernel.elf to this sectors.
     for(UINTN i = 0; i < Elf_header->e_phnum; i++){
@@ -275,8 +275,9 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         if(Program_headers[i].p_type != PT_LOAD){
             continue;
         }
-        void *dest = (void*)(Program_headers[i].p_paddr + slide);
+        void *dest = (void*)(Program_headers[i].p_vaddr + slide);
         UINTN size = Program_headers[i].p_filesz;
+
         Status = uefi_call_wrapper(
                 Kernel_file->SetPosition,
                 2,
@@ -300,7 +301,16 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 return Status;
         }
 
+    UINTN bss = Program_headers[i].p_memsz - Program_headers[i].p_filesz;
+    if(bss > 0){
+        SetMem(
+            (VOID *)((UINT8 *)dest + Program_headers[i].p_filesz),
+            bss,
+            0);
+
     }
+    }
+
     //Now kernel is injected to RAM.
     //Checkpoint 2//
     ////////////////
@@ -401,15 +411,83 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //So after all this strugles and tasks
     //our EFI tired apliaction we close and
     //we are jumping to kernel.
+
+    UINTN pages2 = (kernel_end - kernel_start + 0xFFF)/0x1000;
     Print(L"sdad3\n");
     Status = uefi_call_wrapper(System_table->BootServices->
-            ExitBootServices,
-            2,
-            Image_handle,
-            map_key);
+            AllocatePages,
+            4,
+            AllocateAnyPages,
+            EfiLoaderData,
+            pages2,
+            &KernelAddr);
     if(EFI_ERROR(Status)){
             Print(L"Error efi2: %r\n",Status);
             return Status;
+    }
+
+    INT64 slide2 = KernelAddr - kernel_start;
+
+    for(UINTN i=0;i<Elf_header->e_phnum;i++){
+        if(Program_headers[i].p_type != PT_LOAD) continue;
+
+        void *dest = (void*)(Program_headers[i].p_vaddr + slide2);
+        UINTN size = Program_headers[i].p_filesz;
+        Print(L"sdad4\n");
+        Status = uefi_call_wrapper(
+            Kernel_file->SetPosition,
+            2,
+            Kernel_file,
+            Program_headers[i].p_offset
+        );
+        if(EFI_ERROR(Status)){
+            Print(L"Error efi2: %r\n",Status);
+            return Status;
+        }
+
+        Status = uefi_call_wrapper(
+            Kernel_file->Read,
+            3,
+            Kernel_file,
+            &size,
+            dest
+        );
+        if(EFI_ERROR(Status)){
+            Print(L"Error efi2: %r\n",Status);
+            return Status;
+        }
+
+
+        UINTN bss = Program_headers[i].p_memsz - Program_headers[i].p_filesz;
+        if(bss>0){
+            SetMem((UINT8*)dest + Program_headers[i].p_filesz, bss, 0);
+        }
+        Print(L"sdad5\n");
+    }
+    UINTN actual_size2 = mmap_size;
+    Status = uefi_call_wrapper(
+        System_table->BootServices->
+        GetMemoryMap,
+        5,
+        &actual_size2,
+        mmap,
+        &map_key,
+        &desc_size,
+        &desc_version);
+    if(EFI_ERROR(Status)){
+        Print(L"Error efi2: %r\n",Status);
+        return Status;
+    }
+
+    Status = uefi_call_wrapper(System_table->BootServices
+        ->ExitBootServices,
+        2,
+        Image_handle,
+        map_key
+    );
+    if (EFI_ERROR(Status)) {   // <-- zmiana tutaj
+        Print(L"AllocatePool failed: %r\n", Status);
+        return Status;
     }
     //This is jump if the kernel have the same ABI
     //like EFI so MSx86
@@ -425,6 +503,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //This is jump if the kernel have difrent ABI
     //like System-V
     Print(L"sdad2\n");
-    extern void _start(void);
-    _start();
+    Print(L"lolx\n");
+    VOID (*kernel_entry)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
+    kernel_entry();
 }
