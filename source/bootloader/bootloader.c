@@ -32,7 +32,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //Get status, handle exception
     if(EFI_ERROR(Status)){
-        Print(L"Error efiz: %r\n",Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
     //Download protocol SimpleFileSystem
@@ -49,7 +49,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //Get status, handle exception
     if(EFI_ERROR(Status)){
-        Print(L"Error efix: %r\n", Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
     //Open Root directory
@@ -61,7 +61,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //Get status, handle exception
     if(EFI_ERROR(Status)){
-        Print(L"Error efic %r\n",Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
 
@@ -77,7 +77,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //Get status, handle exception
     if(EFI_ERROR(Status)){
-        Print(L"Error efiv %r\n",Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
     //Checkpoint//
@@ -103,7 +103,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             //is to definie variable Elf_header the correct elf data
             //from kernel.elf file.
     if(EFI_ERROR(Status)){
-            Print(L"Error efib: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
     //So we have the information about size of
@@ -122,7 +122,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Elf_header);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efin: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
     //So if we load or header from Elf_header variable
@@ -163,7 +163,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             (void**)&Program_headers);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efim: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
     //Yup, thats block code above is responsible
@@ -180,7 +180,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Elf_header->e_phoff);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efia: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
 
@@ -199,7 +199,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Program_headers);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efis: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
 
@@ -264,7 +264,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &KernelAddr);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efid: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
     INT64 slide = KernelAddr - kernel_start;
@@ -285,7 +285,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 Program_headers[i].p_offset);
 
         if(EFI_ERROR(Status)){
-                Print(L"Error efif: %r\n",Status);
+                Print(L"Bootloader error: %r\n",Status);
                 return Status;
         }
         //UINTN size = Program_headers[i].p_filesz;
@@ -297,7 +297,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 dest);//(void*)(Program_headers[i].p_paddr));
 
         if(EFI_ERROR(Status)){
-                Print(L"Error efig: %r\n",Status);
+                Print(L"Bootloader error: %r\n",Status);
                 return Status;
         }
 
@@ -350,7 +350,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &desc_version);
 
     if (EFI_ERROR(Status)) {
-        Print(L"Error efi3d: %r\n", Status);
+        Print(L"Bootloader error: %r\n",Status);
         //return Status;
     }
     mmap_size += 2 * desc_size;
@@ -372,7 +372,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //So we will alloacte and inject to memory
     //this information (map)
     //Alloaction
-    Print(L"sdad\n");
+
     Status = uefi_call_wrapper(
             System_table->BootServices->
             AllocatePool,
@@ -386,8 +386,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         //Print(L"Unexpected GetMemoryMap status: %r\n", Status);
         //return Status;
     //}
-    if (EFI_ERROR(Status)) {   // <-- zmiana tutaj
-        Print(L"AllocatePool failed: %r\n", Status);
+    if (EFI_ERROR(Status)) {
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
     Print(L"sdad1\n");
@@ -405,7 +405,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             &desc_version);
 
     if(EFI_ERROR(Status)){
-            Print(L"Error efi1: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
     //So after all this strugles and tasks
@@ -413,7 +413,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //we are jumping to kernel.
 
     UINTN pages2 = (kernel_end - kernel_start + 0xFFF)/0x1000;
-    Print(L"sdad3\n");
+
     Status = uefi_call_wrapper(System_table->BootServices->
             AllocatePages,
             4,
@@ -422,7 +422,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             pages2,
             &KernelAddr);
     if(EFI_ERROR(Status)){
-            Print(L"Error efi2: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
     }
 
@@ -433,7 +433,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
         void *dest = (void*)(Program_headers[i].p_vaddr + slide2);
         UINTN size = Program_headers[i].p_filesz;
-        Print(L"sdad4\n");
+
         Status = uefi_call_wrapper(
             Kernel_file->SetPosition,
             2,
@@ -441,7 +441,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Program_headers[i].p_offset
         );
         if(EFI_ERROR(Status)){
-            Print(L"Error efi2: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
         }
 
@@ -453,7 +453,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             dest
         );
         if(EFI_ERROR(Status)){
-            Print(L"Error efi2: %r\n",Status);
+            Print(L"Bootloader error: %r\n",Status);
             return Status;
         }
 
@@ -462,7 +462,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         if(bss>0){
             SetMem((UINT8*)dest + Program_headers[i].p_filesz, bss, 0);
         }
-        Print(L"sdad5\n");
+
     }
     UINTN actual_size2 = mmap_size;
     Status = uefi_call_wrapper(
@@ -475,7 +475,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         &desc_size,
         &desc_version);
     if(EFI_ERROR(Status)){
-        Print(L"Error efi2: %r\n",Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
 
@@ -486,7 +486,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         map_key
     );
     if (EFI_ERROR(Status)) {   // <-- zmiana tutaj
-        Print(L"AllocatePool failed: %r\n", Status);
+        Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
     //This is jump if the kernel have the same ABI
@@ -500,12 +500,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         //(kernel_entry_t)Elf_header->e_entry;
     //KernelEntry();
 
-    //This is jump if the kernel have difrent ABI
-    //like System-V
+    //jump to kernel ms abi
     VOID (*kmain)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
     kmain();
 
-    //UINT64 slide3 = KernelAddr - kernel_start; // offset w pamięci
-    //VOID (*kmain)(VOID) = (VOID(*)(VOID))(Elf_header->e_entry + slide3);
-    //kmain();
 }
