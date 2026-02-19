@@ -501,7 +501,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //KernelEntry();
 
     //jump to kernel ms abi
-    VOID (*kmain)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
-    kmain();
+    VOID (*_start)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
+    _start();
 
 }
