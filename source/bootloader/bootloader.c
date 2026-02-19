@@ -502,8 +502,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
 
     //This is jump if the kernel have difrent ABI
     //like System-V
-    Print(L"sdad2\n");
-    Print(L"lolx\n");
-    VOID (*kernel_entry)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
-    kernel_entry();
+    VOID (*kmain)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
+    kmain();
+
+    //UINT64 slide3 = KernelAddr - kernel_start; // offset w pamięci
+    //VOID (*kmain)(VOID) = (VOID(*)(VOID))(Elf_header->e_entry + slide3);
+    //kmain();
 }
