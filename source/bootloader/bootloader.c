@@ -390,7 +390,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
-    Print(L"sdad1\n");
+
     //Inject memory map to alloacted sectors.
 
     UINTN actual_size = mmap_size;

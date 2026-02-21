@@ -40,9 +40,10 @@ void Set_vga_parameters(Vga * vga){
     vga->VGA_COLOR_WHITE = 15;
 }
 
-void initialize_vga(){
+Vga initialize_vga(){
     Vga vga;
     Set_vga_parameters(&vga);
+    return vga;
 }
 
 void set_char(Vga * vga, int front_color, int background_color, char character){
