@@ -1,6 +1,7 @@
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efi.h"
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efilib.h"
 #include <elf.h>
+extern void vga_setup(void);
 
 EFI_STATUS EFIAPI
 efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
@@ -489,6 +490,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
+
+    vga_setup();
     //This is jump if the kernel have the same ABI
     //like EFI so MSx86
     //to compile kernel for this you need to add flag
