@@ -1,7 +1,7 @@
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efi.h"
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efilib.h"
 #include <elf.h>
-extern void vga_setup(void);
+extern void vga_text_mode(void);
 
 EFI_STATUS EFIAPI
 efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
@@ -479,7 +479,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
-
     Status = uefi_call_wrapper(System_table->BootServices
         ->ExitBootServices,
         2,
@@ -491,7 +490,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
-    vga_setup();
+    //Turn on vga text mode
+    vga_text_mode();
+    //Turn on vga text mode
+
     //This is jump if the kernel have the same ABI
     //like EFI so MSx86
     //to compile kernel for this you need to add flag
@@ -502,7 +504,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //kernel_entry_t KernelEntry =
         //(kernel_entry_t)Elf_header->e_entry;
     //KernelEntry();
-
     //jump to kernel ms abi
     VOID (*_start)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
     _start();

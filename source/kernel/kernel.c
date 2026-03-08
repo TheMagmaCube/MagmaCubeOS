@@ -5,10 +5,9 @@ int kernel_main(){
 
     Vga vga = initialize_vga();
 
-
     set_char(&vga ,vga.VGA_COLOR_BLUE, vga.VGA_COLOR_WHITE, 'A');
 
-    while(0);
+    while(1);
 
-    return 0;
+    return(0);
 }
