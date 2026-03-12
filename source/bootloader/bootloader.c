@@ -1,7 +1,16 @@
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efi.h"
 #include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efilib.h"
 #include <elf.h>
-extern void vga_text_mode(void);
+
+//GOP structure definie
+typedef struct {
+    uint64_t address;
+    uint32_t width;
+    uint32_t height;
+    uint32_t pitch;
+    uint32_t bits_per_pixel;
+} Framebuffer;
+//GOP structure definie
 
 EFI_STATUS EFIAPI
 efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
@@ -479,20 +488,52 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
+
+    //GOP variable downloading
+
+    EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
+    EFI_GUID gop_guid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+
+    Status = uefi_call_wrapper(
+        BS->LocateProtocol,
+        3,
+        &gop_guid,
+        NULL,
+        (void**)&gop
+    );
+
+    if (EFI_ERROR(Status)) {
+        Print(L"Bootloader error: %r\n",Status);
+        return Status;
+    }
+
+    Framebuffer *fb;
+
+    Status = uefi_call_wrapper(BS->AllocatePool, 3, EfiLoaderData, sizeof(Framebuffer), (VOID**)&fb);
+
+    if (EFI_ERROR(Status)) {
+        Print(L"Bootloader error: %r\n",Status);
+        return Status;
+    }
+
+    fb->address = gop->Mode->FrameBufferBase;
+    fb->width  = gop->Mode->Info->HorizontalResolution;
+    fb->height = gop->Mode->Info->VerticalResolution;
+    fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
+    fb->bits_per_pixel = 32;
+
+    //GOP variable downloading
+
     Status = uefi_call_wrapper(System_table->BootServices
         ->ExitBootServices,
         2,
         Image_handle,
         map_key
     );
-    if (EFI_ERROR(Status)) {   // <-- zmiana tutaj
+    if (EFI_ERROR(Status)) {
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
-
-    //Turn on vga text mode
-    vga_text_mode();
-    //Turn on vga text mode
 
     //This is jump if the kernel have the same ABI
     //like EFI so MSx86
@@ -505,7 +546,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         //(kernel_entry_t)Elf_header->e_entry;
     //KernelEntry();
     //jump to kernel ms abi
-    VOID (*_start)(VOID) = (VOID(*)(VOID))(KernelAddr + Elf_header->e_entry - kernel_start);
-    _start();
+    VOID (*_start)(Framebuffer*) = (VOID(*)(Framebuffer*))(KernelAddr + Elf_header->e_entry - kernel_start);
+    _start(fb);
 
 }

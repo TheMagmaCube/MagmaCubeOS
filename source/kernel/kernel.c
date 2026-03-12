@@ -1,13 +1,14 @@
 //kernel code
-#include "video.c"
+#include "framebuffer.c"
 
-int kernel_main(){
+int kernel_main(framebuffer* fb_from_bootloader){
 
-    Vga vga = initialize_vga();
+    framebuffer fb;
 
-    set_char(&vga ,vga.VGA_COLOR_BLUE, vga.VGA_COLOR_WHITE, 'A');
+    framebuffer_init(fb_from_bootloader, &fb);
 
-    while(1);
+    while(1){
 
+    }
     return(0);
 }
