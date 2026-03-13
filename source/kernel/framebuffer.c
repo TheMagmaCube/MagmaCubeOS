@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdlib.h>
 
 typedef struct {
     uint64_t address;
@@ -19,7 +18,11 @@ void framebuffer_init(framebuffer *fb_from_bootloader, framebuffer *fb){
     fb->bits_per_pixel = fb_from_bootloader->bits_per_pixel;
 }
 
-void put_pixel(uint64_t address, int x, int y, uint32_t color){
+void put_pixel(uint64_t address, uint8_t blue,
+               uint8_t green, uint8_t red, uint8_t alpha){
 
-
+    *(uint8_t*)address = blue;
+    *((uint8_t*)address + 1) = green;
+    *((uint8_t*)address + 2) = red;
+    *((uint8_t*)address + 3) = alpha;
 }

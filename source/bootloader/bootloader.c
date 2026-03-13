@@ -28,6 +28,49 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     EFI_FILE_PROTOCOL * Root = NULL;
     EFI_FILE_PROTOCOL * Kernel_file = NULL;
 
+    //GOP variable downloading
+
+    EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
+
+    EFI_GUID gop_guid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+
+    Status = uefi_call_wrapper(
+        BS->LocateProtocol,
+        3,
+        &gop_guid,
+        NULL,
+        (void**)&gop
+    );
+
+    if (EFI_ERROR(Status)) {
+        Print(L"Bootloader error: %r\n",Status);
+        return Status;
+    }
+
+    //Status = uefi_call_wrapper(gop->SetMode, 2, gop, gop->Mode->FrameBufferBase);
+
+    //if (EFI_ERROR(Status)) {
+    //    Print(L"Bootloader error: %r\n",Status);
+    //    return Status;
+    //}
+
+    Framebuffer *fb;
+
+    Status = uefi_call_wrapper(BS->AllocatePool, 3, EfiLoaderData, sizeof(Framebuffer), (VOID**)&fb);
+
+    if (EFI_ERROR(Status)) {
+        Print(L"Bootloader error: %r\n",Status);
+        return Status;
+    }
+
+    fb->address = gop->Mode->FrameBufferBase;
+    fb->width  = gop->Mode->Info->HorizontalResolution;
+    fb->height = gop->Mode->Info->VerticalResolution;
+    fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
+    fb->bits_per_pixel = 32;
+
+    //GOP variable downloading
+
     //Download protocol LoadedImage
 
     Status = uefi_call_wrapper(
@@ -489,41 +532,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
-    //GOP variable downloading
-
-    EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
-    EFI_GUID gop_guid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
-
-    Status = uefi_call_wrapper(
-        BS->LocateProtocol,
-        3,
-        &gop_guid,
-        NULL,
-        (void**)&gop
-    );
-
-    if (EFI_ERROR(Status)) {
-        Print(L"Bootloader error: %r\n",Status);
-        return Status;
-    }
-
-    Framebuffer *fb;
-
-    Status = uefi_call_wrapper(BS->AllocatePool, 3, EfiLoaderData, sizeof(Framebuffer), (VOID**)&fb);
-
-    if (EFI_ERROR(Status)) {
-        Print(L"Bootloader error: %r\n",Status);
-        return Status;
-    }
-
-    fb->address = gop->Mode->FrameBufferBase;
-    fb->width  = gop->Mode->Info->HorizontalResolution;
-    fb->height = gop->Mode->Info->VerticalResolution;
-    fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
-    fb->bits_per_pixel = 32;
-
-    //GOP variable downloading
-
     Status = uefi_call_wrapper(System_table->BootServices
         ->ExitBootServices,
         2,
@@ -546,6 +554,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         //(kernel_entry_t)Elf_header->e_entry;
     //KernelEntry();
     //jump to kernel ms abi
+
     VOID (*_start)(Framebuffer*) = (VOID(*)(Framebuffer*))(KernelAddr + Elf_header->e_entry - kernel_start);
     _start(fb);
 
