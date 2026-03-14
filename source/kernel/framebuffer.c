@@ -18,11 +18,27 @@ void framebuffer_init(framebuffer *fb_from_bootloader, framebuffer *fb){
     fb->bits_per_pixel = fb_from_bootloader->bits_per_pixel;
 }
 
-void put_pixel(uint64_t address, uint8_t blue,
-               uint8_t green, uint8_t red, uint8_t alpha){
+void put_pixel(uint64_t address, uint64_t width, uint64_t x, uint64_t y,
+               uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 
-    *(uint8_t*)address = blue;
-    *((uint8_t*)address + 1) = green;
-    *((uint8_t*)address + 2) = red;
-    *((uint8_t*)address + 3) = alpha;
+    //pixel address
+
+    uint64_t pixel_address = address + (y * width + x) * 4;
+
+    //pixel address
+
+
+    *(uint8_t*)pixel_address = blue;
+    *((uint8_t*)pixel_address + 1) = green;
+    *((uint8_t*)pixel_address + 2) = red;
+    *((uint8_t*)pixel_address + 3) = alpha;
+}
+
+void clear_screen(uint64_t address, uint32_t width, uint32_t height){
+
+    for(uint32_t h = 0; h <= height; h++){
+        for(uint32_t w = 0; w <= width; w++){
+            put_pixel(address, width, w, h, 0, 0, 0, 0);
+        }
+    }
 }
