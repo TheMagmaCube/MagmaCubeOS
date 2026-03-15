@@ -42,3 +42,21 @@ void clear_screen(uint64_t address, uint32_t width, uint32_t height){
         }
     }
 }
+
+void add_screen_overlay(uint64_t address, uint32_t width){
+
+    for(int i = 0; i < 1200; i+=1){
+        put_pixel(address, width, 30 + i, 30, 0, 255, 0, 0);
+    }
+    for(int i = 0; i < 750; i+=1){
+        put_pixel(address, width, 30, 30 + i, 0, 255, 0, 0);
+    }
+    for(int i = 0; i < 1200; i+=1){
+        put_pixel(address, width, 30 + i, 780, 0, 255, 0, 0);
+    }
+    for(int i = 0; i < 750; i+=1){
+        put_pixel(address, width, 1230, 30 + i, 0, 255, 0, 0);
+    }
+}
+
+//Fonts
