@@ -1,6 +1,12 @@
+//Main framebuffer lib
+
+//Including standard libs
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+
+//Definies framebuffer structure
 
 typedef struct {
     uint64_t address;
@@ -10,6 +16,9 @@ typedef struct {
     uint32_t bits_per_pixel;
 } framebuffer;
 
+//Framebuffer init void for framebuffer structure
+//needs have Framebuffer parameters
+
 void framebuffer_init(framebuffer *fb_from_bootloader, framebuffer *fb){
     fb->address = fb_from_bootloader->address;
     fb->height = fb_from_bootloader->height;
@@ -18,6 +27,9 @@ void framebuffer_init(framebuffer *fb_from_bootloader, framebuffer *fb){
     fb->bits_per_pixel = fb_from_bootloader->bits_per_pixel;
 }
 
+//Put pixel void for puting pixel on screen
+//needs have Framebuffer parameters
+
 void put_pixel(uint64_t address, uint64_t width, uint64_t x, uint64_t y,
                uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 
@@ -25,14 +37,16 @@ void put_pixel(uint64_t address, uint64_t width, uint64_t x, uint64_t y,
 
     uint64_t pixel_address = address + (y * width + x) * 4;
 
-    //pixel address
-
+    //Writing pixel data directly to addresses in RAM
 
     *(uint8_t*)pixel_address = blue;
     *((uint8_t*)pixel_address + 1) = green;
     *((uint8_t*)pixel_address + 2) = red;
     *((uint8_t*)pixel_address + 3) = alpha;
 }
+
+//Clear screen void for clearing the screen
+//needs have Framebuffer parameters
 
 void clear_screen(uint64_t address, uint32_t width, uint32_t height){
 
@@ -42,6 +56,9 @@ void clear_screen(uint64_t address, uint32_t width, uint32_t height){
         }
     }
 }
+
+//Add sreen overlay void for the screen
+//needs have Framebuffer parameters
 
 void add_screen_overlay(uint64_t address, uint32_t width){
 

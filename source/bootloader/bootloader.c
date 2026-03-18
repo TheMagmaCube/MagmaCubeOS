@@ -423,7 +423,11 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             return Status;
     }
 
+    //Calculation how many pages kernel needs
+
     UINTN pages2 = (kernel_end - kernel_start + 0xFFF)/0x1000;
+
+    //Reserve memory for kernel
 
     Status = uefi_call_wrapper(System_table->BootServices->
             AllocatePages,
@@ -437,13 +441,29 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             return Status;
     }
 
+    //Calculate the relocation (slide)
+    //kernel was linked in kernel_start
+    //But loaded under KernelAddr
+    //Now we need to move all addresses
+    //about slide2
+
     INT64 slide2 = KernelAddr - kernel_start;
+
+    //Loading segments ELF
+    //Iterating on headers program ELF
+    //We chose the segments of PT_LOAD
 
     for(UINTN i=0;i<Elf_header->e_phnum;i++){
         if(Program_headers[i].p_type != PT_LOAD) continue;
 
+        //Designation address destination in RAM
+
         void *dest = (void*)(Program_headers[i].p_vaddr + slide2);
         UINTN size = Program_headers[i].p_filesz;
+
+        //Set the position of file
+        //We are moving to sector in file
+        //Where segment starts.
 
         Status = uefi_call_wrapper(
             Kernel_file->SetPosition,
@@ -455,6 +475,9 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             Print(L"Bootloader error: %r\n",Status);
             return Status;
         }
+
+        //Loading data segment
+        //Copying segment from file to RAM
 
         Status = uefi_call_wrapper(
             Kernel_file->Read,
@@ -468,6 +491,10 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             return Status;
         }
 
+        //Zeroing section of BSS
+        //If segment have bigger size in RAM then in file
+        //Missing part = .bss
+        //It needs to be zeroing
 
         UINTN bss = Program_headers[i].p_memsz - Program_headers[i].p_filesz;
         if(bss>0){
@@ -475,6 +502,14 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         }
 
     }
+
+    //Second downloading memory map
+    //It must be done for proper kernel jump
+    //Because AllocatePages changes memory map
+    //old memory map is invalid now
+    //ExitBootServices requires exactly actual
+    //memory map
+
     UINTN actual_size2 = mmap_size;
     Status = uefi_call_wrapper(
         System_table->BootServices->
@@ -490,6 +525,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
+    //Exiting BootServices
+
     Status = uefi_call_wrapper(System_table->BootServices
         ->ExitBootServices,
         2,
@@ -501,11 +538,15 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
-    //This is jump if the kernel have the same ABI
+    //This is jump to kernel if the kernel have the same ABI
     //EFI app = MS abi
     //to compile kernel with ms abi, while compilation you need to add flag
     //"-mabi=ms"
 
+    //With kernel jump we give to it indicator of GOP initialized structure
+    //that structure is definied
+    //In form of register parameters
+    //thats why _start(fb << parameter);
     VOID (*_start)(Framebuffer*) = (VOID(*)(Framebuffer*))(KernelAddr + Elf_header->e_entry - kernel_start);
     _start(fb);
 
