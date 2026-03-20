@@ -17,9 +17,9 @@ all:
 	#Create img
 	rm -f ./build/efiboot.img
 	truncate -s 512M ./build/efiboot.img
-	sudo mkfs.fat -F32 ./build/efiboot.img
-	sudo mmd -i ./build/efiboot.img ::EFI
-	sudo mmd -i ./build/efiboot.img ::EFI/BOOT
+	/usr/sbin/mkfs.fat -F32 ./build/efiboot.img
+	/usr/bin/mmd -i ./build/efiboot.img ::EFI
+	/usr/bin/mmd -i ./build/efiboot.img ::EFI/BOOT
 	mv ./build/bootloader.efi ./build/BOOTX64.EFI
 	mcopy -i ./build/efiboot.img ./build/BOOTX64.EFI ::EFI/BOOT/
 	mcopy -i ./build/efiboot.img ./build/kernel.elf ::EFI/BOOT/
