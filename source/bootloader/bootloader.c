@@ -45,6 +45,41 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
+    //Changing screen resolution
+
+    for (UINT32 i = 0; i < gop->Mode->MaxMode; i++) {
+        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *info;
+        UINTN size;
+
+        Status = uefi_call_wrapper(
+            gop->QueryMode,
+            4,
+            gop,
+            i,
+            &size,
+            &info
+        );
+
+        if (EFI_ERROR(Status)) {
+            Print(L"Bootloader error: %r\n",Status);
+            return Status;
+        }
+
+        if (info->HorizontalResolution == 1920 &&
+            info->VerticalResolution == 1080) {
+
+        Status = uefi_call_wrapper(
+            gop->SetMode,
+            2,
+            gop,
+            i
+        );
+            break;
+            }
+
+    }
+
+
     //Declarate Framebuffer structure
     Framebuffer *fb;
 
@@ -63,7 +98,44 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
     fb->bits_per_pixel = 32;
 
-    //GOP variable downloading
+
+    //Print logo
+
+    UINTN col, row;
+
+    //Getting actual position of coursor
+    Status = uefi_call_wrapper(System_table->ConOut->QueryMode,4,System_table->ConOut,System_table->ConOut->Mode->Mode,&col,&row);
+    Print(L"#             #   ####   #       #  #########   #          #########     ####       ####   #########");
+    //Going to new line by row += 1
+    row += 1;
+    //Set new coursor position
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L" #           #   #    #   #     #   #           #          #        #   #    #     #    #      #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"  #         #   #      #   #   #    #           #          #        #  #      #   #      #     #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"   #       #    #      #    # #     #########   #          #########   #      #   #      #     #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"    #     #     #      #     #      #           #          #        #  #      #   #      #     #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"     #   #      #      #    # #     #           #          #        #  #      #   #      #     #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"      # #        #    #    #   #    #           #          #        #   #    #     #    #      #    ");
+    row += 1;
+    Status = uefi_call_wrapper(System_table->ConOut->SetCursorPosition,3,System_table->ConOut,0,row);
+    Print(L"       #          ####    #     #   #########   #########  #########     ####       ####       #    ");
+
+    //sleep
+
+    for(long i = 0; i <999999995; i++){
+
+    }
+
 
     //Download protocol LoadedImage
     //For loading Kernel file
