@@ -30,8 +30,3 @@ This project includes third-party software:
   and does not incorporate code under the GNU General Public License.
   Full license texts are available in:
   licenses/GNUEFI
-
-- File /source/kernel/fonts.c
-  Copyright (c) 2008 The NetBSD Foundation, Inc.
-  Full license texts are available in:
-  licenses/NETBSD
