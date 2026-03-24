@@ -1,9 +1,0 @@
-gcc -c crt0-efi-x86_64.S \
-    -o crt0-efi-x86_64.o \
-    -fpic \
-    -ffreestanding \
-    -mno-red-zone \
-    -fno-stack-protector \
-    -DEFI_FUNCTION_WRAPPER \
-    -I ./gnu-efi/gnu-efi-3.0.15/inc \
-    -I ./gnu-efi/gnu-efi-3.0.15/gnuefi/inc/x86_64
