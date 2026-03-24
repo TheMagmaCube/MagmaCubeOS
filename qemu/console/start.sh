@@ -6,6 +6,6 @@
   -cpu qemu64 \
   -drive if=pflash,format=raw,readonly=on,file=./OVMF_CODE.fd \
   -drive if=pflash,format=raw,file=./OVMF_VARS.fd \
-  -drive file=./efiboot.img,format=raw \
+  -drive file=./MagmaCubeOS.img,format=raw \
   -boot d \
   -nographic
