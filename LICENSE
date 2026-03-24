@@ -24,9 +24,9 @@ This project includes third-party software:
 
 - This project uses GNU EFI libs to be compiled
   GNU EFI is licensed under multiple permissive licenses,
-  including BSD (2-clause, 3-clause) and MIT (Expat).
+  including BSD (2-clause, 3-clause, 4-clause) and MIT (Expat).
 
   This project uses only the permissive-licensed portions of GNU EFI
   and does not incorporate code under the GNU General Public License.
   Full license texts are available in:
-  licenses/GNUEFI
+  licenses/GNUEFI/
