@@ -9,9 +9,9 @@ all:
 	rm ./build/kernel.o
 
 	#bootloader
-	gcc -I./lib/gnuefi_source/gnu-efi-3.0.15/inc -I./lib/gnuefi_source/gnu-efi-3.0.15/inc/x86_64 -fpic -ffreestanding -fno-stack-protector -fshort-wchar -mno-red-zone -DEFI_FUNCTION_WRAPPER -c ./source/bootloader/bootloader.c -o ./build/bootloader.o
+	gcc -I./usr/include/efi -I/usr/include/efi/x86_64 -fpic -ffreestanding -fno-stack-protector -fshort-wchar -mno-red-zone -DEFI_FUNCTION_WRAPPER -c ./source/bootloader/bootloader.c -o ./build/bootloader.o
 
-	ld -shared -Bsymbolic -nostdlib -L./lib/compiled_gnuefi -L./lib/manual_compiled_files_gnuefi -T./lib/gnuefi_source/gnu-efi-3.0.15/gnuefi/elf_x86_64_efi.lds ./lib/gnuefi_source/gnu-efi-3.0.15/gnuefi/crt0-efi-x86_64.o ./build/bootloader.o -o ./build/bootloader.so ./lib/manual_compiled_files_gnuefi/libgnuefi.a ./lib/compiled_gnuefi/libefi.a
+	ld -shared -Bsymbolic -nostdlib -T/usr/lib/elf_x86_64_efi.lds /usr/lib/crt0-efi-x86_64.o ./build/bootloader.o -o ./build/bootloader.so /usr/lib/libgnuefi.a /usr/lib/libefi.a
 	objcopy -j .text -j .sdata -j .data -j .rodata -j .rel -j .rela -j .reloc -j .dynamic -j .dynsym --target efi-app-x86_64 ./build/bootloader.so ./build/bootloader.efi
 
 	#Create img
