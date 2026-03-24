@@ -15,17 +15,17 @@ all:
 	objcopy -j .text -j .sdata -j .data -j .rodata -j .rel -j .rela -j .reloc -j .dynamic -j .dynsym --target efi-app-x86_64 ./build/bootloader.so ./build/bootloader.efi
 
 	#Create img
-	rm -f ./build/efiboot.img
-	truncate -s 512M ./build/efiboot.img
-	/usr/sbin/mkfs.fat -F32 ./build/efiboot.img
-	/usr/bin/mmd -i ./build/efiboot.img ::EFI
-	/usr/bin/mmd -i ./build/efiboot.img ::EFI/BOOT
+	rm -f ./build/MagmaCubeOS.img
+	truncate -s 512M ./build/MagmaCubeOS.img
+	/usr/sbin/mkfs.fat -F32 ./build/MagmaCubeOS.img
+	/usr/bin/mmd -i ./build/MagmaCubeOS.img ::EFI
+	/usr/bin/mmd -i ./build/MagmaCubeOS.img ::EFI/BOOT
 	mv ./build/bootloader.efi ./build/BOOTX64.EFI
-	mcopy -i ./build/efiboot.img ./build/BOOTX64.EFI ::EFI/BOOT/
-	mcopy -i ./build/efiboot.img ./build/kernel.elf ::EFI/BOOT/
+	mcopy -i ./build/MagmaCubeOS.img ./build/BOOTX64.EFI ::EFI/BOOT/
+	mcopy -i ./build/MagmaCubeOS.img ./build/kernel.elf ::EFI/BOOT/
 
-	rm -f ./qemu_test/efiboot.img
-	cp ./build/efiboot.img ./qemu_test/efiboot.img
+	rm -f ./qemu_test/MagmaCubeOS.img
+	cp ./build/MagmaCubeOS.img ./qemu_test/MagmaCubeOS.img
 
 	rm ./build/BOOTX64.EFI
 	rm ./build/bootloader.o
