@@ -90,14 +90,19 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         Print(L"Bootloader error: %r\n",Status);
         return Status;
     }
-
     //Get parametrs from EFI structure to Framebuffer structure
     fb->address = gop->Mode->FrameBufferBase;
     fb->width  = gop->Mode->Info->HorizontalResolution;
     fb->height = gop->Mode->Info->VerticalResolution;
     fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
-    fb->bits_per_pixel = 32;
 
+    //Getting alpha
+    UINT32 ReservedMask = gop->Mode->Info->PixelInformation.ReservedMask;
+    if(ReservedMask != 1){
+        fb->bits_per_pixel = 24;
+    }else{
+        fb->bits_per_pixel = 32;
+    }
 
     //Print logo
 
