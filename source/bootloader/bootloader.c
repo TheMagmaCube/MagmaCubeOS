@@ -48,7 +48,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     //Changing screen resolution
 
     for (UINT32 i = 0; i < gop->Mode->MaxMode; i++) {
-        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *info;
+        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *graphic_info;
         UINTN size;
 
         Status = uefi_call_wrapper(
@@ -57,7 +57,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             gop,
             i,
             &size,
-            &info
+            &graphic_info
         );
 
         if (EFI_ERROR(Status)) {
@@ -65,8 +65,8 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             return Status;
         }
 
-        if (info->HorizontalResolution == 1920 &&
-            info->VerticalResolution == 1080) {
+        if (graphic_info->HorizontalResolution == 1920 &&
+            graphic_info->VerticalResolution == 1080) {
 
         Status = uefi_call_wrapper(
             gop->SetMode,
@@ -78,6 +78,9 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             }
 
     }
+    //Setting 32 bits per pixel
+
+
 
 
     //Declarate Framebuffer structure
@@ -95,14 +98,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     fb->width  = gop->Mode->Info->HorizontalResolution;
     fb->height = gop->Mode->Info->VerticalResolution;
     fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
-
-    //Getting alpha
-    UINT32 ReservedMask = gop->Mode->Info->PixelInformation.ReservedMask;
-    if(ReservedMask != 1){
-        fb->bits_per_pixel = 24;
-    }else{
-        fb->bits_per_pixel = 32;
-    }
 
     //Print logo
 
