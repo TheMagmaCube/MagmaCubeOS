@@ -116,7 +116,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 gop,
                 framebuffer_32_bits_per_pixel
             );
-            //Print(L"RGB");
             if (EFI_ERROR(Status)) {
                 Print(L"Bootloader error: %r\n",Status);
                 return Status;
@@ -132,7 +131,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 gop,
                 framebuffer_32_bits_per_pixel
             );
-            //Print(L"BGR");
             if (EFI_ERROR(Status)) {
                 Print(L"Bootloader error: %r\n",Status);
                 return Status;
@@ -636,7 +634,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         }
 
     }
-
     //Second downloading memory map
     //It must be done for proper kernel jump
     //Because AllocatePages changes memory map
@@ -660,7 +657,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     }
 
     //Exiting BootServices
-
     Status = uefi_call_wrapper(System_table->BootServices
         ->ExitBootServices,
         2,

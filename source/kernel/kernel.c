@@ -14,6 +14,9 @@ int kernel_main(framebuffer* fb_from_bootloader){
     //Framebuffer variable init
     framebuffer_init(fb_from_bootloader, &fb);
 
+    //Framebuffer check
+    framebuffer_mode_check(&fb);
+
     //Clearing screen
 
     clear_screen(fb.bpp_mode,fb.address, fb.width, fb.height);
