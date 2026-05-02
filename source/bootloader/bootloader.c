@@ -89,7 +89,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     UINT32 RGB_graphic_mode = 0;
     UINT32 BGR_graphic_mode = 0;
 
-    for (UINT32 i = 0; i < gop->Mode->MaxMode;i++){
+    for (UINT32 i = 0; i < gop->Mode->MaxMode; i++){
         EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *graphic_info;
         UINTN size;
 
@@ -114,18 +114,29 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
                 gop->SetMode,
                 2,
                 gop,
-                i
+                framebuffer_32_bits_per_pixel
             );
+            //Print(L"RGB");
+            if (EFI_ERROR(Status)) {
+                Print(L"Bootloader error: %r\n",Status);
+                return Status;
+            }
             break;
-        }else if(graphic_info->PixelFormat == PixelBlueGreenRedReserved8BitPerColor){
+        }
+        if(graphic_info->PixelFormat == PixelBlueGreenRedReserved8BitPerColor){
             framebuffer_32_bits_per_pixel = i;
             BGR_graphic_mode = 1;
             Status = uefi_call_wrapper(
                 gop->SetMode,
                 2,
                 gop,
-                i
+                framebuffer_32_bits_per_pixel
             );
+            //Print(L"BGR");
+            if (EFI_ERROR(Status)) {
+                Print(L"Bootloader error: %r\n",Status);
+                return Status;
+            }
             break;
         }
 
@@ -135,7 +146,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     Framebuffer *fb;
 
     //Alocating memory for Framebuffer structure
-    Status = uefi_call_wrapper(BS->AllocatePool, 3, EfiLoaderData, sizeof(Framebuffer), (VOID**)&fb);
+    Status = uefi_call_wrapper(System_table->BootServices->AllocatePool, 3, EfiLoaderData, sizeof(Framebuffer), (VOID**)&fb);
 
     if (EFI_ERROR(Status)) {
         Print(L"Bootloader error: %r\n",Status);
