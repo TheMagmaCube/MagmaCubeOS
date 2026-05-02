@@ -1,6 +1,7 @@
 #include "/usr/include/efi/efi.h"
 #include "/usr/include/efi/efilib.h"
 #include <efi/efiprot.h>
+#include <efi/x86_64/efibind.h>
 #include <elf.h>
 
 //GOP structure definie
@@ -37,7 +38,7 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     EFI_GUID gop_guid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
 
     Status = uefi_call_wrapper(
-        BS->LocateProtocol,
+        System_table->BootServices->LocateProtocol,
         3,
         &gop_guid,
         NULL,
@@ -181,11 +182,11 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     Print(L"       #          ####    #     #   #########   #########  #########     ####       ####       #    ");
 
     //sleep
-
-    for(long i = 0; i <999999995; i++){
-
-    }
-
+    Status = uefi_call_wrapper(
+        System_table->BootServices->Stall,
+        1,
+        1000000
+    );
 
     //Download protocol LoadedImage
     //For loading Kernel file
