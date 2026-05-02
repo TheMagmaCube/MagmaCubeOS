@@ -1,5 +1,5 @@
-#include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efi.h"
-#include "/home/hubert/project_kernel/gnu-efi/gnu-efi-3.0.15/inc/efilib.h"
+#include "/usr/include/efi/efi.h"
+#include "/usr/include/efi/efilib.h"
 #include <elf.h>
 
 //GOP structure definie
