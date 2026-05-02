@@ -14,6 +14,9 @@ typedef struct {
     uint32_t height;
     uint32_t pitch;
     uint32_t bits_per_pixel;
+    uint32_t RGB_graphic_mode;
+    uint32_t BGR_graphic_mode;
+    uint32_t bpp_mode; // 1 = rgb, 2 = bgr
 } framebuffer;
 
 //Framebuffer init void for framebuffer structure
@@ -25,12 +28,23 @@ void framebuffer_init(framebuffer *fb_from_bootloader, framebuffer *fb){
     fb->width = fb_from_bootloader->width;
     fb->pitch = fb_from_bootloader->pitch;
     fb->bits_per_pixel = fb_from_bootloader->bits_per_pixel;
+    fb->RGB_graphic_mode = fb_from_bootloader->RGB_graphic_mode;
+    fb->BGR_graphic_mode = fb_from_bootloader->BGR_graphic_mode;
+    fb->bpp_mode = 0;
+}
+
+void framebuffer_mode_check(framebuffer *fb){
+    if(fb->RGB_graphic_mode == 1){
+        fb->bpp_mode = 1;
+    }else if(fb->BGR_graphic_mode == 1){
+        fb->bpp_mode = 2;
+    }
 }
 
 //Put pixel void for puting pixel on screen
 //needs have Framebuffer parameters
 
-void put_pixel(uint64_t address, uint64_t width, uint64_t x, uint64_t y,
+void put_pixel(uint32_t mode, uint64_t address, uint64_t width, uint64_t x, uint64_t y,
                uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 
     //pixel address
@@ -38,21 +52,27 @@ void put_pixel(uint64_t address, uint64_t width, uint64_t x, uint64_t y,
     uint64_t pixel_address = address + (y * width + x) * 4;
 
     //Writing pixel data directly to addresses in RAM
-
-    *(uint8_t*)pixel_address = blue;
+    if(mode == 1){
+    *(uint8_t*)pixel_address = red;
     *((uint8_t*)pixel_address + 1) = green;
-    *((uint8_t*)pixel_address + 2) = red;
+    *((uint8_t*)pixel_address + 2) = blue;
     *((uint8_t*)pixel_address + 3) = alpha;
+    }else if(mode == 2){
+        *(uint8_t*)pixel_address = blue;
+        *((uint8_t*)pixel_address + 1) = green;
+        *((uint8_t*)pixel_address + 2) = red;
+        *((uint8_t*)pixel_address + 3) = alpha;
+    }
 }
 
 //Clear screen void for clearing the screen
 //needs have Framebuffer parameters
 
-void clear_screen(uint64_t address, uint32_t width, uint32_t height){
+void clear_screen(uint32_t mode, uint64_t address, uint32_t width, uint32_t height){
 
     for(uint32_t h = 0; h <= height; h++){
         for(uint32_t w = 0; w <= width; w++){
-            put_pixel(address, width, w, h, 0, 0, 0, 0);
+            put_pixel(mode, address, width, w, h, 0, 0, 0, 0);
         }
     }
 }
@@ -60,19 +80,19 @@ void clear_screen(uint64_t address, uint32_t width, uint32_t height){
 //Add sreen overlay void for the screen
 //needs have Framebuffer parameters
 
-void add_screen_overlay(uint64_t address, uint32_t width){
+void add_screen_overlay(uint32_t mode, uint64_t address, uint32_t width){
 
     for(int i = 0; i < 1200; i+=1){
-        put_pixel(address, width, 30 + i, 30, 0, 255, 0, 0);
+        put_pixel(mode, address, width, 30 + i, 30, 0, 255, 0, 0);
     }
     for(int i = 0; i < 750; i+=1){
-        put_pixel(address, width, 30, 30 + i, 0, 255, 0, 0);
+        put_pixel(mode, address, width, 30, 30 + i, 0, 255, 0, 0);
     }
     for(int i = 0; i < 1200; i+=1){
-        put_pixel(address, width, 30 + i, 780, 0, 255, 0, 0);
+        put_pixel(mode, address, width, 30 + i, 780, 0, 255, 0, 0);
     }
     for(int i = 0; i < 750; i+=1){
-        put_pixel(address, width, 1230, 30 + i, 0, 255, 0, 0);
+        put_pixel(mode, address, width, 1230, 30 + i, 0, 255, 0, 0);
     }
 }
 

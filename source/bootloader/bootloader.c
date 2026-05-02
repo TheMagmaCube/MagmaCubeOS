@@ -1,5 +1,6 @@
 #include "/usr/include/efi/efi.h"
 #include "/usr/include/efi/efilib.h"
+#include <efi/efiprot.h>
 #include <elf.h>
 
 //GOP structure definie
@@ -9,6 +10,9 @@ typedef struct {
     uint32_t height;
     uint32_t pitch;
     uint32_t bits_per_pixel;
+    uint32_t RGB_graphic_mode;
+    uint32_t BGR_graphic_mode;
+
 } Framebuffer;
 //GOP structure definie
 
@@ -80,8 +84,51 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     }
     //Setting 32 bits per pixel
 
+    UINT32 framebuffer_32_bits_per_pixel = 0;
+    UINT32 RGB_graphic_mode = 0;
+    UINT32 BGR_graphic_mode = 0;
 
+    for (UINT32 i = 0; i < gop->Mode->MaxMode;i++){
+        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *graphic_info;
+        UINTN size;
 
+        Status = uefi_call_wrapper(
+            gop->QueryMode,
+            4,
+            gop,
+            i,
+            &size,
+            &graphic_info
+        );
+
+        if (EFI_ERROR(Status)) {
+            Print(L"Bootloader error: %r\n",Status);
+            return Status;
+        }
+
+        if(graphic_info->PixelFormat == PixelRedGreenBlueReserved8BitPerColor){
+            framebuffer_32_bits_per_pixel = i;
+            RGB_graphic_mode = 1;
+            Status = uefi_call_wrapper(
+                gop->SetMode,
+                2,
+                gop,
+                i
+            );
+            break;
+        }else if(graphic_info->PixelFormat == PixelBlueGreenRedReserved8BitPerColor){
+            framebuffer_32_bits_per_pixel = i;
+            BGR_graphic_mode = 1;
+            Status = uefi_call_wrapper(
+                gop->SetMode,
+                2,
+                gop,
+                i
+            );
+            break;
+        }
+
+    }
 
     //Declarate Framebuffer structure
     Framebuffer *fb;
@@ -98,6 +145,9 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     fb->width  = gop->Mode->Info->HorizontalResolution;
     fb->height = gop->Mode->Info->VerticalResolution;
     fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
+    fb->bits_per_pixel = framebuffer_32_bits_per_pixel;
+    fb->RGB_graphic_mode = RGB_graphic_mode;
+    fb->BGR_graphic_mode = BGR_graphic_mode;
 
     //Print logo
 

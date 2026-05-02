@@ -16,11 +16,11 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     //Clearing screen
 
-    clear_screen(fb.address, fb.width, fb.height);
+    clear_screen(fb.bpp_mode,fb.address, fb.width, fb.height);
 
     //Adding overlay to teh screen
 
-    add_screen_overlay(fb.address, fb.width);
+    add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
 
     //Loop for kernel because we don't want to kernel
     //stop
