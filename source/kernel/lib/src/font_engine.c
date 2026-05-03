@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "../../fonts/font.h"
-#include "framebuffer.c"
+#include "../include/screen_manager.h"
 
 typedef struct {
     uint64_t address;
