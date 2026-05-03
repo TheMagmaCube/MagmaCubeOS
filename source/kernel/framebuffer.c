@@ -96,5 +96,3 @@ void add_screen_overlay(uint32_t mode, uint64_t address, uint32_t width){
         put_pixel(mode, address, width, 1230, 30 + i, 0, 255, 0, 100);
     }
 }
-
-//Fonts
