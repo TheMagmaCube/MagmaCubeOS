@@ -1,6 +1,6 @@
 //kernel code
-#include "./lib/framebuffer.h"
-#include "./lib/font_engine.h"
+#include "./lib/include/framebuffer.h"
+#include "./lib/include/font_engine.h"
 
 
 //Main kernel loop

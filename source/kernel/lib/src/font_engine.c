@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "./fonts/font.h"
+#include "../../fonts/font.h"
 #include "framebuffer.c"
 
 typedef struct {
