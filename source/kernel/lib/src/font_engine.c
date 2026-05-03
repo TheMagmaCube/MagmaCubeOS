@@ -31,7 +31,7 @@ void font_render(uint32_t mode, uint64_t address, uint32_t width,
 
         for(int k = 0; k < 12; k++){
 
-            uint64_t real_x = x * k * 12;
+            uint64_t real_x = k;
             uint64_t real_y = i;
 
             if (body[k] == 1){

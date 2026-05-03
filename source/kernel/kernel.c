@@ -1,5 +1,6 @@
 //kernel code
-#include "framebuffer.c"
+#include "./lib/framebuffer.h"
+#include "./lib/font_engine.h"
 
 
 //Main kernel loop
@@ -23,7 +24,9 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     //Adding overlay to teh screen
 
-    add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
+
+
+    //add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
 
     //Loop for kernel because we don't want to kernel
     //stop
