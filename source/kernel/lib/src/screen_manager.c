@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../include/framebuffer.h"
 
 typedef struct{
     uint32_t width;

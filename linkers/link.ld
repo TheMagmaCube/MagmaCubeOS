@@ -9,6 +9,7 @@ SECTIONS
     . = 0x100000000;
     .text : { *(.text*) } :text
     .rodata : { *(.rodata*) } :text
+    .eh_frame : { *(.eh_frame*) } :text
     .data : { *(.data*) } :data
     .bss : { *(.bss*) } :data
 }

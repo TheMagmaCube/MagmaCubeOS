@@ -21,7 +21,7 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     //Clearing screen
 
-    clear_screen(fb.bpp_mode,fb.address, fb.width, fb.height);
+    clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);
 
     //Adding overlay to teh screen
 
