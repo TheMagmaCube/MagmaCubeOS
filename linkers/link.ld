@@ -1,9 +1,14 @@
 ENTRY(_start)
+PHDRS
+{
+    text PT_LOAD FLAGS(5);
+    data PT_LOAD FLAGS(6);
+}
 SECTIONS
 {
     . = 0x100000000;
-    .text : { *(.text*) }
-    .rodata : { *(.rodata*) }
-    .data : { *(.data*) }
-    .bss : { *(.bss*) }
+    .text : { *(.text*) } :text
+    .rodata : { *(.rodata*) } :text
+    .data : { *(.data*) } :data
+    .bss : { *(.bss*) } :data
 }
