@@ -8,9 +8,9 @@
 #include "../include/screen_manager.h"
 
 typedef struct {
-    int stage_row;
-    int stage_column;
-    int body[12];
+    uint32_t stage_row;
+    uint32_t stage_column;
+    uint32_t body[12];
 
 } font_engine;
 
@@ -104,7 +104,7 @@ void font_selector(font_engine* font_engine, char character, int i){
 }
 
 void font_clear(font_engine* font_engine){
-    for(int i = 0; i < 12; i++){
+    for(uint32_t i = 0; i < 12; i++){
         font_engine->body[i] = 0;
     }
 }
@@ -113,18 +113,18 @@ void font_clear(font_engine* font_engine){
 void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t width,
                  uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 
-    for(int i = 0; i < 24; i++){
+    for(uint32_t i = 0; i < 24; i++){
 
         font_clear(font_engine);
         font_selector(font_engine, character, i);
 
         for(int k = 0; k < 12; k++){
 
-            uint64_t real_x = k + (font_engine->stage_row * 12);
-            uint64_t real_y = i;
+            uint32_t real_x = k + (font_engine->stage_row *1.4 * 12) + 3;
+            uint32_t real_y = i + 3;
 
             if (font_engine->body[k] == 1){
-                put_pixel(mode, address, width, real_x, real_y, 0, 255, 0, 0);
+                put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
             }
         }
     }

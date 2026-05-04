@@ -8,9 +8,9 @@
 #include <stdbool.h>
 
 typedef struct {
-    int stage_row;
-    int stage_column;
-    int body[12];
+    uint32_t stage_row;
+    uint32_t stage_column;
+    uint32_t body[12];
 
 } font_engine;
 

@@ -28,10 +28,24 @@ int kernel_main(framebuffer* fb_from_bootloader){
     clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);
 
     //Printing chars
+    while(1){
     font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 255,0, 0);
     font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 0, 255,0, 0);
     font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 255,0, 0);
-
+    for(uint32_t i = 0; i < 999999999;i++){
+    }
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 0, 255, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 0, 0, 255, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 0, 255, 0);
+    for(uint32_t i = 0; i < 999999999;i++){
+    }
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 255, 0, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 255, 0, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 255, 0, 0, 0);
+    for(uint32_t i = 0; i < 999999999;i++){
+    }
+    clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);
+    }
     //add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
 
     //Loop for kernel because we don't want to kernel
