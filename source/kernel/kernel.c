@@ -27,8 +27,10 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);
 
-    //Adding overlay to teh screen
-    font_render(fb.bpp_mode, fb.address, &fe, 'D', fb.width, 0, 255,0, 0);
+    //Printing chars
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 255,0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 0, 255,0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 255,0, 0);
 
     //add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
 
