@@ -30,3 +30,12 @@ This project includes third-party software:
   and does not incorporate code under the GNU General Public License.
   Full license texts are available in:
   licenses/GNUEFI/
+
+- This project uses GNU unifont.
+  This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+  OFL reference:
+  https://scripts.sil.org/OFL
+
+  Full license texts are available in:
+  licenses/GNU_unifont/license
