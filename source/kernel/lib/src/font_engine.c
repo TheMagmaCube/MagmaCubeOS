@@ -10,7 +10,7 @@
 typedef struct {
     uint32_t stage_row;
     uint32_t stage_column;
-    uint8_t body[16][16];
+    uint8_t body[8];
     uint8_t hex_body;
 
 } font_engine;
@@ -30,39 +30,54 @@ uint8_t int_to_bin(uint8_t i){
             break;
         case 1:
             bin = 0b0001;
+            break;
         case 2:
             bin = 0b0010;
+            break;
         case 3:
             bin = 0b0011;
+            break;
         case 4:
             bin = 0b0100;
+            break;
         case 5:
             bin = 0b0101;
+            break;
         case 6:
             bin = 0b0110;
+            break;
         case 7:
             bin = 0b0111;
+            break;
         case 8:
             bin = 0b1000;
+            break;
         case 9:
             bin = 0b1001;
+            break;
         case 10:
             bin = 0b1010;
+            break;
         case 11:
             bin = 0b1011;
+            break;
         case 12:
             bin = 0b1100;
+            break;
         case 13:
             bin = 0b1101;
+            break;
         case 14:
             bin = 0b1110;
+            break;
         case 15:
             bin = 0b1111;
+            break;
     }
     return bin;
 }
 
-void hex_to_bin(font_engine* font_engine, uint8_t j){
+void hex_to_bin(font_engine* font_engine){
 
     uint8_t first_bits_in_decimal = (font_engine->hex_body >> 4) & 0xF;
     uint8_t second_bits_in_decimal = font_engine->hex_body & 0xF;
@@ -71,51 +86,27 @@ void hex_to_bin(font_engine* font_engine, uint8_t j){
     uint8_t second_bits_in_binary = int_to_bin(second_bits_in_decimal);
 
     uint8_t b0_first = (first_bits_in_binary >> 3) & 1;
-    uint8_t b1_first = (first_bits_in_binary >> 3) & 1;
-    uint8_t b2_first = (first_bits_in_binary >> 3) & 1;
-    uint8_t b3_first = (first_bits_in_binary >> 3) & 1;
+    uint8_t b1_first = (first_bits_in_binary >> 2) & 1;
+    uint8_t b2_first = (first_bits_in_binary >> 1) & 1;
+    uint8_t b3_first = first_bits_in_binary & 1;
 
     uint8_t b0_second = (second_bits_in_binary >> 3) & 1;
-    uint8_t b1_second = (second_bits_in_binary >> 3) & 1;
-    uint8_t b2_second = (second_bits_in_binary >> 3) & 1;
-    uint8_t b3_second = (second_bits_in_binary >> 3) & 1;
+    uint8_t b1_second = (second_bits_in_binary >> 2) & 1;
+    uint8_t b2_second = (second_bits_in_binary >> 1) & 1;
+    uint8_t b3_second = second_bits_in_binary & 1;
 
-    for(uint32_t i; i < 8; i++){
+    font_engine->body[0] = b0_first;
+    font_engine->body[1] = b1_first;
+    font_engine->body[2] = b2_first;
+    font_engine->body[3] = b3_first;
 
-        switch(i){
-            case 0:
-                font_engine->body[j][i] = b0_first;
-                break;
-            case 1:
-                font_engine->body[j][i] = b1_first;
-                break;
-            case 2:
-                font_engine->body[j][i] = b2_first;
-                break;
-            case 3:
-                font_engine->body[j][i] = b3_first;
-                break;
-            case 4:
-                font_engine->body[j][i] = b0_second;
-                break;
-            case 5:
-                font_engine->body[j][i] = b1_second;
-                break;
-            case 6:
-                font_engine->body[j][i] = b2_second;
-                break;
-            case 7:
-                font_engine->body[j][i] = b3_second;
-                break;
-        };
-    }
+    font_engine->body[4] = b0_second;
+    font_engine->body[5] = b1_second;
+    font_engine->body[6] = b2_second;
+    font_engine->body[7] = b3_second;
 }
 
 void font_selector(font_engine* font_engine, char character, int i){
-
-    for(uint32_t j = 0; j < 16; j++){
-
-        uint8_t k = 0;
 
         switch(character){
             case 'A':
@@ -195,10 +186,8 @@ void font_selector(font_engine* font_engine, char character, int i){
                 break;
         }
 
-        hex_to_bin(font_engine,k);
-        k++;
+        hex_to_bin(font_engine);
 
-    }
 }
 
 void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t width,
@@ -206,12 +195,14 @@ void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char
 
     for(uint32_t i = 0; i < 16; i++){
 
-        for(uint32_t k = 0; k < 16; k++){
+        font_selector(font_engine, character, i);
+
+        for(uint32_t k = 0; k < 8; k++){
 
             uint32_t real_x = k + (font_engine->stage_row *1.4 * 12) + 3;
             uint32_t real_y = i + 3;
 
-            if (font_engine->body[i][k] == 1){
+            if (font_engine->body[k] == 1){
                 put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
             }
         }

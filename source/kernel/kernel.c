@@ -29,9 +29,14 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     //Printing chars
     while(1){
-    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 255,0, 0);
-    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 0, 255,0, 0);
-    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 255,0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 255, 0, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 255, 0, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 255, 0, 0, 0);
+    for(uint32_t i = 0; i < 999999999;i++){
+    }
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 255, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 0, 255, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 255, 0, 0);
     for(uint32_t i = 0; i < 999999999;i++){
     }
     font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 0, 0, 255, 0);
@@ -39,9 +44,9 @@ int kernel_main(framebuffer* fb_from_bootloader){
     font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 0, 0, 255, 0);
     for(uint32_t i = 0; i < 999999999;i++){
     }
-    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 255, 0, 0, 0);
-    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 255, 0, 0, 0);
-    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 255, 0, 0, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'A', fb.width, 255, 255, 255, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'B', fb.width, 255, 255, 255, 0);
+    font_render(fb.bpp_mode, fb.address, &fe, 'C', fb.width, 255, 255, 255, 0);
     for(uint32_t i = 0; i < 999999999;i++){
     }
     clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);

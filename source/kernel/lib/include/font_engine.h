@@ -16,9 +16,11 @@ typedef struct {
 
 void font_engine_init(font_engine* font_engine);
 
-void font_selector(font_engine* font_engine, char character, int i);
+uint8_t int_to_bin(uint8_t i);
 
-void font_clear(font_engine* font_engine);
+void hex_to_bin(font_engine* font_engine);
+
+void font_selector(font_engine* font_engine, char character, int i);
 
 void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t width,
                  uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
