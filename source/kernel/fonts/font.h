@@ -14,8 +14,8 @@ typedef struct{
 
 static Font font_SPACE = {
 
-    .indicator = {0x00, 0x00},
-    .body = {0xAA,0xAA,0x00,0x01,0x80,0x00,0x00,0x01,0x80,0x00,0x4A,0x51,0xEA,0x50,0x5A,0x51,0xC9,0x9E,0x00,0x01,0x80,0x00,0x00,0x01,0x80,0x00,0x00,0x01,0x80,0x00,0x55,0x55}
+    .indicator = {0x00,0x20},
+    .body = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}
 };
 
 static Font font_A = {
@@ -27,152 +27,152 @@ static Font font_A = {
 
 static Font font_B = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0x00,0x42},
+    .body = {0x00,0x00,0x00,0x00,0x7C,0x42,0x42,0x42,0x7C,0x42,0x42,0x42,0x42,0x7C,0x00,0x00}
 };
 
 static Font font_C = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0x00,0x43},
+    .body = {0x00,0x00,0x00,0x00,0x3C,0x42,0x42,0x40,0x40,0x40,0x40,0x42,0x42,0x3C,0x00,0x00}
 };
 
 static Font font_D = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0x00,0x44},
+    .body = {0x00,0x00,0x00,0x00,0x78,0x44,0x42,0x42,0x42,0x42,0x42,0x42,0x44,0x78,0x00,0x00}
 };
 
 static Font font_E = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0x00,0x45},
+    .body = {0x00,0x00,0x00,0x00,0x7E,0x40,0x40,0x40,0x7C,0x40,0x40,0x40,0x40,0x7E,0x00,0x00}
 };
 
 static Font font_F = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0x00,0x46},
+    .body = {0x00,0x00,0x00,0x00,0x7E,0x40,0x40,0x40,0x7C,0x40,0x40,0x40,0x40,0x40,0x00,0x00}
 };
 
 static Font font_G = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0047:000000003C424240404E4242463A0000},
+    .body = {0047:000000003C424240404E4242463A0000}
 };
 
 static Font font_H = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0048:00000000424242427E42424242420000},
+    .body = {0048:00000000424242427E42424242420000}
 };
 
 static Font font_I = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0049:000000003E08080808080808083E0000},
+    .body = {0049:000000003E08080808080808083E0000}
 };
 
 static Font font_J = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004A:000000001F0404040404044444380000},
+    .body = {004A:000000001F0404040404044444380000}
 };
 
 static Font font_K = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004B:00000000424448506060504844420000},
+    .body = {004B:00000000424448506060504844420000}
 };
 
 static Font font_L = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004C:000000004040404040404040407E0000},
+    .body = {004C:000000004040404040404040407E0000}
 };
 
 static Font font_M = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004D:00000000424266665A5A424242420000},
+    .body = {004D:00000000424266665A5A424242420000}
 };
 
 static Font font_N = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004E:0000000042626252524A4A4646420000},
+    .body = {004E:0000000042626252524A4A4646420000}
 };
 
 static Font font_O = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {004F:000000003C42424242424242423C0000},
+    .body = {004F:000000003C42424242424242423C0000}
 };
 
 static Font font_P = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0050:000000007C4242427C40404040400000},
+    .body = {0050:000000007C4242427C40404040400000}
 };
 
 static Font font_Q = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0051:000000003C4242424242425A663C0300},
+    .body = {0051:000000003C4242424242425A663C0300}
 };
 
 static Font font_R = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0052:000000007C4242427C48444442420000},
+    .body = {0052:000000007C4242427C48444442420000}
 };
 
 static Font font_S = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0053:000000003C424240300C0242423C0000},
+    .body = {0053:000000003C424240300C0242423C0000}
 };
 
 static Font font_T = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0054:000000007F0808080808080808080000},
+    .body = {0054:000000007F0808080808080808080000}
 };
 
 static Font font_U = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0055:000000004242424242424242423C0000},
+    .body = {0055:000000004242424242424242423C0000}
 };
 
 static Font font_V = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0056:00000000414141222222141408080000},
+    .body = {0056:00000000414141222222141408080000}
 };
 
 static Font font_W = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0057:00000000424242425A5A666642420000},
+    .body = {0057:00000000424242425A5A666642420000}
 };
 
 static Font font_X = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0058:00000000424224241818242442420000},
+    .body = {0058:00000000424224241818242442420000}
 };
 
 static Font font_Y = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {0059:00000000414122221408080808080000},
+    .body = {0059:00000000414122221408080808080000}
 };
 
 static Font font_Z = {
 
-    .indicator = {},
-    .body = {}
+    .indicator = {005A:000000007E02020408102040407E0000},
+    .body = {005A:000000007E02020408102040407E0000}
 };
 
 #endif
