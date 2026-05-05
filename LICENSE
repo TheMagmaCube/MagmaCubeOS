@@ -34,6 +34,9 @@ This project includes third-party software:
 - This project uses GNU unifont.
   This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
+  Source font files:
+  source/kernel/fonts/unifont-17.0.04.hex
+
   OFL reference:
   https://scripts.sil.org/OFL
 
