@@ -15,11 +15,11 @@ The idea of this project is to do a OS with basic stuff.
 - working kernel entry
 - basic forward UEFI GOP parameters to kernel
 - basic screen manipulation in kernel
+- screen fonts
 
 ### Things not covered:  
 - memory allocation algorithm
 - memory release algorithm
-- screen fonts
 - PS/2 port implementation
 - USB port implementation
 - Audio implementation
