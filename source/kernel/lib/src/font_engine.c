@@ -199,8 +199,8 @@ void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char
 
         for(uint32_t k = 0; k < 8; k++){
 
-            uint32_t real_x = k + (font_engine->stage_row *1.4 * 12) + 3;
-            uint32_t real_y = i + 3;
+            uint32_t real_x = k + (font_engine->stage_row * 1.4 * 8) + 3;
+            uint32_t real_y = i + font_engine->stage_column * 16 + 3;
 
             if (font_engine->body[k] == 1){
                 put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
