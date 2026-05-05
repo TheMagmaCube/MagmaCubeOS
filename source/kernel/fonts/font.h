@@ -8,7 +8,7 @@
 typedef struct{
 
     uint8_t indicator[2];
-    uint8_t body[32];
+    uint8_t body[16];
 
 } Font;
 

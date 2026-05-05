@@ -10,7 +10,7 @@
 typedef struct {
     uint32_t stage_row;
     uint32_t stage_column;
-    uint32_t body[12];
+    uint8_t body[8];
 
 } font_engine;
 
@@ -19,85 +19,172 @@ void font_engine_init(font_engine* font_engine){
     font_engine->stage_column = 0;
 }
 
+uint8_t int_to_bin(uint8_t i){
+
+    uint8_t bin;
+
+    switch(i){
+        case 0:
+            bin = 0b0000;
+            break;
+        case 1:
+            bin = 0b0001;
+        case 2:
+            bin = 0b0010;
+        case 3:
+            bin = 0b0011;
+        case 4:
+            bin = 0b0100;
+        case 5:
+            bin = 0b0101;
+        case 6:
+            bin = 0b0110;
+        case 7:
+            bin = 0b0111;
+        case 8:
+            bin = 0b1000;
+        case 9:
+            bin = 0b1001;
+        case 10:
+            bin = 0b1010;
+        case 11:
+            bin = 0b1011;
+        case 12:
+            bin = 0b1100;
+        case 13:
+            bin = 0b1101;
+        case 14:
+            bin = 0b1110;
+        case 15:
+            bin = 0b1111;
+    }
+    return bin;
+}
+
+void hex_to_bin(font_engine* font_engine ,uint8_t hex){
+
+    uint8_t first_bits_in_decimal = (hex >> 4) & 0xF;
+    uint8_t second_bits_in_decimal = hex & 0xF;
+
+    uint8_t first_bits_in_binary = int_to_bin(first_bits_in_decimal);
+    uint8_t second_bits_in_binary = int_to_bin(second_bits_in_decimal);
+
+    uint8_t b0_first = (first_bits_in_binary >> 3) & 1;
+    uint8_t b1_first = (first_bits_in_binary >> 3) & 1;
+    uint8_t b2_first = (first_bits_in_binary >> 3) & 1;
+    uint8_t b3_first = (first_bits_in_binary >> 3) & 1;
+
+    uint8_t b0_second = (second_bits_in_binary >> 3) & 1;
+    uint8_t b1_second = (second_bits_in_binary >> 3) & 1;
+    uint8_t b2_second = (second_bits_in_binary >> 3) & 1;
+    uint8_t b3_second = (second_bits_in_binary >> 3) & 1;
+
+    //font_engine->body[1] =
+    //{b0_first,b1_first,b2_first,b3_first,b0_second,b1_second,b2_second,b3_second};
+
+    for(uint32_t i; i < 8; i++){
+
+        switch(i){
+            case 0:
+                font_engine->body[0] = b0_first;
+            case 1:
+                font_engine->body[0] = b1_first;
+            case 2:
+                font_engine->body[0] = b2_first;
+            case 3:
+                font_engine->body[0] = b3_first;
+            case 4:
+                font_engine->body[0] = b0_second;
+            case 5:
+                font_engine->body[0] = b1_second;
+            case 6:
+                font_engine->body[0] = b2_second;
+            case 7:
+                font_engine->body[0] = b3_second;
+        };
+    }
+
+}
+
 void font_selector(font_engine* font_engine, char character, int i){
 
-    for(int j = 0; j < 12; j++){
+    for(uint32_t j = 0; j < 12; j++){
 
         switch(character){
             case 'A':
-                font_engine->body[j] = font_A.body[i][j];
+                font_engine->body[j] = font_A.body[i];
                 break;
             case 'B':
-                font_engine->body[j] = font_B.body[i][j];
+                font_engine->body[j] = font_B.body[i];
                 break;
             case 'C':
-                font_engine->body[j] = font_C.body[i][j];
+                font_engine->body[j] = font_C.body[i];
                 break;
             case 'D':
-                font_engine->body[j] = font_D.body[i][j];
+                font_engine->body[j] = font_D.body[i];
                 break;
             case 'E':
-                font_engine->body[j] = font_E.body[i][j];
+                font_engine->body[j] = font_E.body[i];
                 break;
             case 'F':
-                font_engine->body[j] = font_F.body[i][j];
+                font_engine->body[j] = font_F.body[i];
                 break;
             case 'G':
-                font_engine->body[j] = font_G.body[i][j];
+                font_engine->body[j] = font_G.body[i];
                 break;
             case 'H':
-                font_engine->body[j] = font_H.body[i][j];
+                font_engine->body[j] = font_H.body[i];
                 break;
             case 'I':
-                font_engine->body[j] = font_I.body[i][j];
+                font_engine->body[j] = font_I.body[i];
                 break;
             case 'J':
-                font_engine->body[j] = font_J.body[i][j];
+                font_engine->body[j] = font_J.body[i];
                 break;
             case 'K':
-                font_engine->body[j] = font_K.body[i][j];
+                font_engine->body[j] = font_K.body[i];
                 break;
             case 'L':
-                font_engine->body[j] = font_L.body[i][j];
+                font_engine->body[j] = font_L.body[i];
                 break;
             case 'M':
-                font_engine->body[j] = font_M.body[i][j];
+                font_engine->body[j] = font_M.body[i];
                 break;
             case 'N':
-                font_engine->body[j] = font_N.body[i][j];
+                font_engine->body[j] = font_N.body[i];
                 break;
             case 'O':
-                font_engine->body[j] = font_O.body[i][j];
+                font_engine->body[j] = font_O.body[i];
                 break;
             case 'P':
-                font_engine->body[j] = font_P.body[i][j];
+                font_engine->body[j] = font_P.body[i];
                 break;
             case 'Q':
-                font_engine->body[j] = font_Q.body[i][j];
+                font_engine->body[j] = font_Q.body[i];
                 break;
             case 'R':
-                font_engine->body[j] = font_R.body[i][j];
+                font_engine->body[j] = font_R.body[i];
                 break;
             case 'S':
-                font_engine->body[j] = font_S.body[i][j];
+                font_engine->body[j] = font_S.body[i];
                 break;
             case 'T':
-                font_engine->body[j] = font_T.body[i][j];
+                font_engine->body[j] = font_T.body[i];
                 break;
             case 'U':
-                font_engine->body[j] = font_U.body[i][j];
+                font_engine->body[j] = font_U.body[i];
                 break;
             case 'W':
-                font_engine->body[j] = font_W.body[i][j];
+                font_engine->body[j] = font_W.body[i];
                 break;
             case 'X':
-                font_engine->body[j] = font_X.body[i][j];
+                font_engine->body[j] = font_X.body[i];
                 break;
             case 'Y':
-                font_engine->body[j] = font_B.body[i][j];
+                font_engine->body[j] = font_B.body[i];
                 break;
             case 'Z':
-                font_engine->body[j] = font_Z.body[i][j];
+                font_engine->body[j] = font_Z.body[i];
                 break;
         }
     }
@@ -118,7 +205,7 @@ void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char
         font_clear(font_engine);
         font_selector(font_engine, character, i);
 
-        for(int k = 0; k < 12; k++){
+        for(uint32_t k = 0; k < 12; k++){
 
             uint32_t real_x = k + (font_engine->stage_row *1.4 * 12) + 3;
             uint32_t real_y = i + 3;
