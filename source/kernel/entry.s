@@ -17,6 +17,10 @@
 
 _start:
 
+    #and rsp, -16 << for #include <stdarg.h>
+    #sub rsp, 32 << for #include <stdarg.h>
+    #comented because without it also work
+
     #Relocating parameters
     #This should be done
     #Because in MS abi

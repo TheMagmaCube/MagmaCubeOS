@@ -8,17 +8,10 @@
 #include "../include/screen_manager.h"
 
 typedef struct {
-    uint32_t stage_row;
-    uint32_t stage_column;
     uint8_t body[8];
     uint8_t hex_body;
 
 } font_engine;
-
-void font_engine_init(font_engine* font_engine){
-    font_engine->stage_row = 0;
-    font_engine->stage_column = 0;
-}
 
 uint8_t int_to_bin(uint8_t i){
 
@@ -190,22 +183,17 @@ void font_selector(font_engine* font_engine, char character, int i){
 
 }
 
-void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t width,
+void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t row, uint64_t column, uint32_t width,
                  uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 
     for(uint32_t i = 0; i < 16; i++){
-
         font_selector(font_engine, character, i);
-
         for(uint32_t k = 0; k < 8; k++){
-
-            uint32_t real_x = k + (font_engine->stage_row * 1.4 * 8) + 3;
-            uint32_t real_y = i + font_engine->stage_column * 16 + 3;
-
+            uint32_t real_x = k + row * 8;
+            uint32_t real_y = i + column * 16;
             if (font_engine->body[k] == 1){
                 put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
             }
         }
     }
-    font_engine->stage_row++;
 }

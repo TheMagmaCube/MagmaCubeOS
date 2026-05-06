@@ -38,7 +38,7 @@ void clear_screen(uint32_t mode, uint64_t address, uint32_t width, uint32_t heig
 
     for(uint32_t h = 1; h <= height; h++){
         for(uint32_t w = 1; w <= width; w++){
-            put_pixel(mode, address, width, w, h, 0, 0, 100, 0);
+            put_pixel(mode, address, width, w, h, 0, 0, 75, 0);
         }
     }
 }
