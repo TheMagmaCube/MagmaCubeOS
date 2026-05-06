@@ -1,7 +1,5 @@
 #include "/usr/include/efi/efi.h"
 #include "/usr/include/efi/efilib.h"
-#include <efi/efiprot.h>
-#include <efi/x86_64/efibind.h>
 #include <elf.h>
 
 //GOP structure definie
