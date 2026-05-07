@@ -181,6 +181,9 @@ void font_selector(font_engine* font_engine, char character, int i){
             case 'Z':
                 font_engine->hex_body = font_Z.body[i];
                 break;
+            case ' ':
+                font_engine->hex_body = font_SPACE.body[i];
+                break;
         }
 
         hex_to_bin(font_engine);

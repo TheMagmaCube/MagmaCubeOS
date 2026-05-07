@@ -65,6 +65,7 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
             break;
         case 0x19:
             ps_driver->key_pressed = 'P';
+            break;
         case 0x10:
             ps_driver->key_pressed = 'Q';
             break;
@@ -95,6 +96,8 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
         case 0x2C:
             ps_driver->key_pressed = 'Z';
             break;
+        case 0x39:
+            ps_driver->key_pressed = ' ';
         case 0x1E + 0x80:
             ps_driver->key_relesed = 'A';
             break;
@@ -173,6 +176,8 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
         case 0x2C + 0x80:
             ps_driver->key_relesed = 'Z';
             break;
+        case 0xB9:
+            ps_driver->key_pressed = ' ';
     }
 }
 
@@ -187,8 +192,8 @@ void key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, fon
         word_render(fc, fe, number_of_args, ps_driver->key_pressed);
     }
 
-    ps_driver->key_pressed = ' ';
-    ps_driver->key_relesed = ' ';
+    ps_driver->key_pressed = '+';
+    ps_driver->key_relesed = '+';
 
     for(uint32_t i = 0; i < 7999999 * 7; i++){
 
