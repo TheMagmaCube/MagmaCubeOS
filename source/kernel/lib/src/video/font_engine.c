@@ -7,12 +7,14 @@
 #include "../../../fonts/font.h"
 #include "../../include/video/screen_manager.h"
 
+// font_engine struct
 typedef struct {
     uint8_t body[8];
     uint8_t hex_body;
 
 } font_engine;
 
+// init_to_bin func need for changing uint8_t variable to binary format variable
 uint8_t int_to_bin(uint8_t i){
 
     uint8_t bin;
@@ -70,6 +72,7 @@ uint8_t int_to_bin(uint8_t i){
     return bin;
 }
 
+//hex_to_bin func need for change HEX number into binary format variable, uses int_to_bin func
 void hex_to_bin(font_engine* font_engine){
 
     uint8_t first_bits_in_decimal = (font_engine->hex_body >> 4) & 0xF;
@@ -99,6 +102,7 @@ void hex_to_bin(font_engine* font_engine){
     font_engine->body[7] = b3_second;
 }
 
+// font_selector func need for chosing character and copy data to font_engine variable
 void font_selector(font_engine* font_engine, char character, int i){
 
         switch(character){
@@ -183,6 +187,7 @@ void font_selector(font_engine* font_engine, char character, int i){
 
 }
 
+// font_render func need for render font on screen
 void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t row, uint64_t column, uint32_t width,
                  uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
 

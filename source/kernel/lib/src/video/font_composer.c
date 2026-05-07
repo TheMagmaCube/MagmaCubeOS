@@ -8,6 +8,8 @@
 #include <stdarg.h>
 #include "../../include/video/font_engine.h"
 
+
+//Define font_composer structure
 typedef struct{
     uint32_t row;
     uint32_t column;
@@ -19,6 +21,7 @@ typedef struct{
 
 } font_composer;
 
+//font_composer_init func need for init all variables that font_composer variable should have definied
 void font_composer_init(font_composer* font_composer, uint64_t address, uint32_t width, uint32_t height, uint32_t bpp_mode){
     font_composer->row = 0;
     font_composer->column = 0;
@@ -28,6 +31,7 @@ void font_composer_init(font_composer* font_composer, uint64_t address, uint32_t
     font_composer->bpp_mode = bpp_mode;
 }
 
+//word_render func need for printing words on a screen, func using font_engine
 void word_render(font_composer* fc, font_engine* fe, uint32_t number_of_args, ...){
     va_list args;
     va_start(args, number_of_args);
