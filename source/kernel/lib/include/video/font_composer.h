@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../include/font_engine.h"
+#include "font_engine.h"
 
 typedef struct{
     uint32_t stage_row;

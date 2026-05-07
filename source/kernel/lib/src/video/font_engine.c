@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../../fonts/font.h"
-#include "../include/screen_manager.h"
+#include "../../../fonts/font.h"
+#include "../../include/video/screen_manager.h"
 
 typedef struct {
     uint8_t body[8];

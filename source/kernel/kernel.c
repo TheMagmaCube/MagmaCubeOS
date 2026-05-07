@@ -1,8 +1,8 @@
 //kernel code
-#include "./lib/include/framebuffer.h"
-#include "./lib/include/font_engine.h"
-#include "./lib/include/screen_manager.h"
-#include "./lib/include/font_composer.h"
+#include "./lib/include/video/framebuffer.h"
+#include "./lib/include/video/font_engine.h"
+#include "./lib/include/video/screen_manager.h"
+#include "./lib/include/video/font_composer.h"
 
 
 //Main kernel loop

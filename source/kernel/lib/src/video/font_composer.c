@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include "../include/font_engine.h"
+#include "../../include/video/font_engine.h"
 
 typedef struct{
     uint32_t row;
