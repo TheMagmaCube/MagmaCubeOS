@@ -1,5 +1,5 @@
-![Kernel stage in QEMU hypervisor](screenshots/Kernel_stage.png)
-![Bootloader stage in QEMU hypervisor](screenshots/Bootloader_stage.png)
+![MagmaOS hello world showcase](showcase/MagmaOS_showcase.gif)
+![Bootloader stage in QEMU hypervisor](showcase/Bootloader_stage.png)
 
 ---
 
