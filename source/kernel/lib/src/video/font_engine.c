@@ -184,6 +184,199 @@ void font_selector(font_engine* font_engine, char character, int i){
             case ' ':
                 font_engine->hex_body = font_SPACE.body[i];
                 break;
+            case 'a':
+                font_engine->hex_body = font_a.body[i];
+                break;
+            case 'b':
+                font_engine->hex_body = font_b.body[i];
+                break;
+            case 'c':
+                font_engine->hex_body = font_c.body[i];
+                break;
+            case 'd':
+                font_engine->hex_body = font_d.body[i];
+                break;
+            case 'e':
+                font_engine->hex_body = font_e.body[i];
+                break;
+            case 'f':
+                font_engine->hex_body = font_f.body[i];
+                break;
+            case 'g':
+                font_engine->hex_body = font_g.body[i];
+                break;
+            case 'h':
+                font_engine->hex_body = font_h.body[i];
+                break;
+            case 'i':
+                font_engine->hex_body = font_i.body[i];
+                break;
+            case 'j':
+                font_engine->hex_body = font_j.body[i];
+                break;
+            case 'k':
+                font_engine->hex_body = font_k.body[i];
+                break;
+            case 'l':
+                font_engine->hex_body = font_l.body[i];
+                break;
+            case 'm':
+                font_engine->hex_body = font_m.body[i];
+                break;
+            case 'n':
+                font_engine->hex_body = font_n.body[i];
+                break;
+            case 'o':
+                font_engine->hex_body = font_o.body[i];
+                break;
+            case 'p':
+                font_engine->hex_body = font_p.body[i];
+                break;
+            case 'q':
+                font_engine->hex_body = font_q.body[i];
+                break;
+            case 'r':
+                font_engine->hex_body = font_r.body[i];
+                break;
+            case 's':
+                font_engine->hex_body = font_s.body[i];
+                break;
+            case 't':
+                font_engine->hex_body = font_t.body[i];
+                break;
+            case 'u':
+                font_engine->hex_body = font_u.body[i];
+                break;
+            case 'v':
+                font_engine->hex_body = font_v.body[i];
+                break;
+            case 'w':
+                font_engine->hex_body = font_w.body[i];
+                break;
+            case 'x':
+                font_engine->hex_body = font_x.body[i];
+                break;
+            case 'y':
+                font_engine->hex_body = font_y.body[i];
+                break;
+            case 'z':
+                font_engine->hex_body = font_z.body[i];
+                break;
+            case '0':
+                font_engine->hex_body = font_0.body[i];
+                break;
+            case '1':
+                font_engine->hex_body = font_1.body[i];
+                break;
+            case '2':
+                font_engine->hex_body = font_2.body[i];
+                break;
+            case '3':
+                font_engine->hex_body = font_3.body[i];
+                break;
+            case '4':
+                font_engine->hex_body = font_4.body[i];
+                break;
+            case '5':
+                font_engine->hex_body = font_5.body[i];
+                break;
+            case '6':
+                font_engine->hex_body = font_6.body[i];
+                break;
+            case '7':
+                font_engine->hex_body = font_7.body[i];
+                break;
+            case '8':
+                font_engine->hex_body = font_8.body[i];
+                break;
+            case '9':
+                font_engine->hex_body = font_9.body[i];
+                break;
+            case '!':
+                font_engine->hex_body = font_exclamation_mark.body[i];
+                break;
+            case '"':
+                font_engine->hex_body = font_question_mark.body[i];
+                break;
+            case '#':
+                font_engine->hex_body = font_quotation_mark.body[i];
+                break;
+            case '$':
+                font_engine->hex_body = font_dollar_sign.body[i];
+                break;
+            case '%':
+                font_engine->hex_body = font_percent_sign.body[i];
+                break;
+            case '&':
+                font_engine->hex_body = font_ampersand.body[i];
+                break;
+            case '\'':
+                font_engine->hex_body = font_apostrophe.body[i];
+                break;
+            case '(':
+                font_engine->hex_body = font_left_paranthesis.body[i];
+                break;
+            case ')':
+                font_engine->hex_body = font_right_paranthesis.body[i];
+                break;
+            case '*':
+                font_engine->hex_body = font_asterisk.body[i];
+                break;
+            case '+':
+                font_engine->hex_body = font_plus_sign.body[i];
+                break;
+            case ',':
+                font_engine->hex_body = font_comma.body[i];
+                break;
+            case '-':
+                font_engine->hex_body = font_minus.body[i];
+                break;
+            case '.':
+                font_engine->hex_body = font_dot.body[i];
+                break;
+            case '/':
+                font_engine->hex_body = font_slash.body[i];
+                break;
+            case ':':
+                font_engine->hex_body = font_colon.body[i];
+                break;
+            case ';':
+                font_engine->hex_body = font_semicolon.body[i];
+                break;
+            case '<':
+                font_engine->hex_body = font_less_then_sign.body[i];
+                break;
+            case '=':
+                font_engine->hex_body = font_equal_sign.body[i];
+                break;
+            case '>':
+                font_engine->hex_body = font_greater_then_sign.body[i];
+                break;
+            case '?':
+                font_engine->hex_body = font_question_mark.body[i];
+                break;
+            case '@':
+                font_engine->hex_body = font_at_sign.body[i];
+                break;
+            case '[':
+                font_engine->hex_body = font_left_square_bracket.body[i];
+                break;
+            case '\\':
+                font_engine->hex_body = font_backslash.body[i];
+                break;
+            case ']':
+                font_engine->hex_body = font_right_square_bracket.body[i];
+                break;
+            case '^':
+                font_engine->hex_body = font_circumflex_accent.body[i];
+                break;
+            case '_':
+                font_engine->hex_body = font_low_line.body[i];
+                break;
+            case '`':
+                font_engine->hex_body = font_grave_accent.body[i];
+                break;
+
         }
 
         hex_to_bin(font_engine);
