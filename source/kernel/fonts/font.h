@@ -232,7 +232,7 @@ static Font font_j = {
 
 static Font font_k = {
 
-    .indicator = {00,6B},
+    .indicator = {0x00,0x6B},
     .body = {00,00,00,40,40,40,44,48,50,60,50,48,44,42,00,00}
 };
 
