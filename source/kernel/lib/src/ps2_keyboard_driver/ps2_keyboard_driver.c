@@ -12,6 +12,8 @@
 typedef struct{
     char key_pressed;
     char key_relesed;
+    char control_key_pressed;
+    char control_key_relesed;
 
 } ps2_keyboard_scan_code_set_one;
 
@@ -98,6 +100,43 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
             break;
         case 0x39:
             ps_driver->key_pressed = ' ';
+            break;
+        case 0x1C:
+            ps_driver->control_key_pressed = 'E';
+            break;
+        case 0x0E:
+            ps_driver->control_key_pressed = 'B';
+            break;
+        case 0x02:
+            ps_driver->key_pressed = '1';
+            break;
+        case 0x03:
+            ps_driver->key_pressed = '2';
+            break;
+        case 0x04:
+            ps_driver->key_pressed = '3';
+            break;
+        case 0x05:
+            ps_driver->key_pressed = '4';
+            break;
+        case 0x06:
+            ps_driver->key_pressed = '5';
+            break;
+        case 0x07:
+            ps_driver->key_pressed = '6';
+            break;
+        case 0x08:
+            ps_driver->key_pressed = '7';
+            break;
+        case 0x09:
+            ps_driver->key_pressed = '8';
+            break;
+        case 0x0A:
+            ps_driver->key_pressed = '9';
+            break;
+        case 0x0B:
+            ps_driver->key_pressed = '0';
+            break;
         case 0x1E + 0x80:
             ps_driver->key_relesed = 'A';
             break;
@@ -176,8 +215,46 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
         case 0x2C + 0x80:
             ps_driver->key_relesed = 'Z';
             break;
-        case 0xB9:
-            ps_driver->key_pressed = ' ';
+        case 0x39 + 0x80:
+            ps_driver->key_relesed = ' ';
+            break;
+        case 0x1C + 0x80:
+            ps_driver->control_key_relesed = 'E';
+            break;
+        case 0x0E + 0x80:
+            ps_driver->control_key_relesed = 'B';
+            break;
+        case 0x02 + 0x80:
+            ps_driver->key_relesed = '1';
+            break;
+        case 0x03 + 0x80:
+            ps_driver->key_relesed = '2';
+            break;
+        case 0x04 + 0x80:
+            ps_driver->key_relesed = '3';
+            break;
+        case 0x05 + 0x80:
+            ps_driver->key_relesed = '4';
+            break;
+        case 0x06 + 0x80:
+            ps_driver->key_relesed = '5';
+            break;
+        case 0x07 + 0x80:
+            ps_driver->key_relesed = '6';
+            break;
+        case 0x08 + 0x80:
+            ps_driver->key_relesed = '7';
+            break;
+        case 0x09 + 0x80:
+            ps_driver->key_relesed = '8';
+            break;
+        case 0x0A + 0x80:
+            ps_driver->key_relesed = '9';
+            break;
+        case 0x0B + 0x80:
+            ps_driver->key_relesed = '0';
+            break;
+
     }
 }
 
@@ -192,8 +269,11 @@ void key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, fon
         word_render(fc, fe, number_of_args, ps_driver->key_pressed);
     }
 
-    ps_driver->key_pressed = '+';
-    ps_driver->key_relesed = '+';
+    ps_driver->control_key_pressed = 'W';
+    ps_driver->control_key_relesed = 'W';
+
+    ps_driver->key_pressed = '`';
+    ps_driver->key_relesed = '`';
 
     for(uint32_t i = 0; i < 7999999 * 7; i++){
 
