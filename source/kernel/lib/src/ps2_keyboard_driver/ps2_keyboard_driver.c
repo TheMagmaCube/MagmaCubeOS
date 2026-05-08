@@ -17,95 +17,97 @@ typedef struct{
 
 } ps2_keyboard_scan_code_set_one;
 
+//Q = left shift
+//W = right shift
+//A = left ctrl
+//S = right ctrl
+//E = enter
+//B = backspace
+//for control key
+
 void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code){
 
     switch(char_code){
         case 0x1E:
-            ps_driver->key_pressed = 'A';
+            ps_driver->key_pressed = 'a';
             break;
         case 0x30:
-            ps_driver->key_pressed = 'B';
+            ps_driver->key_pressed = 'b';
             break;
         case 0x2E:
-            ps_driver->key_pressed = 'C';
+            ps_driver->key_pressed = 'c';
             break;
         case 0x20:
-            ps_driver->key_pressed = 'D';
+            ps_driver->key_pressed = 'd';
             break;
         case 0x12:
-            ps_driver->key_pressed = 'E';
+            ps_driver->key_pressed = 'e';
             break;
         case 0x21:
-            ps_driver->key_pressed = 'F';
+            ps_driver->key_pressed = 'f';
             break;
         case 0x22:
-            ps_driver->key_pressed = 'G';
+            ps_driver->key_pressed = 'g';
             break;
         case 0x23:
-            ps_driver->key_pressed = 'H';
+            ps_driver->key_pressed = 'h';
             break;
         case 0x17:
-            ps_driver->key_pressed = 'I';
+            ps_driver->key_pressed = 'i';
             break;
         case 0x24:
-            ps_driver->key_pressed = 'J';
+            ps_driver->key_pressed = 'j';
             break;
         case 0x25:
-            ps_driver->key_pressed = 'K';
+            ps_driver->key_pressed = 'k';
             break;
         case 0x26:
-            ps_driver->key_pressed = 'L';
+            ps_driver->key_pressed = 'l';
             break;
         case 0x32:
-            ps_driver->key_pressed = 'M';
+            ps_driver->key_pressed = 'm';
             break;
         case 0x31:
-            ps_driver->key_pressed = 'N';
+            ps_driver->key_pressed = 'n';
             break;
         case 0x18:
-            ps_driver->key_pressed = 'O';
+            ps_driver->key_pressed = 'o';
             break;
         case 0x19:
-            ps_driver->key_pressed = 'P';
+            ps_driver->key_pressed = 'p';
             break;
         case 0x10:
-            ps_driver->key_pressed = 'Q';
+            ps_driver->key_pressed = 'q';
             break;
         case 0x13:
-            ps_driver->key_pressed = 'R';
+            ps_driver->key_pressed = 'r';
             break;
         case 0x1F:
-            ps_driver->key_pressed = 'S';
+            ps_driver->key_pressed = 's';
             break;
         case 0x14:
-            ps_driver->key_pressed = 'T';
+            ps_driver->key_pressed = 't';
             break;
         case 0x16:
-            ps_driver->key_pressed = 'U';
+            ps_driver->key_pressed = 'u';
             break;
         case 0x2F:
-            ps_driver->key_pressed = 'V';
+            ps_driver->key_pressed = 'v';
             break;
         case 0x11:
-            ps_driver->key_pressed = 'W';
+            ps_driver->key_pressed = 'w';
             break;
         case 0x2D:
-            ps_driver->key_pressed = 'X';
+            ps_driver->key_pressed = 'x';
             break;
         case 0x15:
-            ps_driver->key_pressed = 'Y';
+            ps_driver->key_pressed = 'y';
             break;
         case 0x2C:
-            ps_driver->key_pressed = 'Z';
+            ps_driver->key_pressed = 'z';
             break;
         case 0x39:
             ps_driver->key_pressed = ' ';
-            break;
-        case 0x1C:
-            ps_driver->control_key_pressed = 'E';
-            break;
-        case 0x0E:
-            ps_driver->control_key_pressed = 'B';
             break;
         case 0x02:
             ps_driver->key_pressed = '1';
@@ -137,92 +139,139 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
         case 0x0B:
             ps_driver->key_pressed = '0';
             break;
+        case 0x2A:
+            ps_driver->control_key_pressed = 'Q';
+            break;
+        case 0x36:
+            ps_driver->control_key_pressed = 'W';
+            break;
+        case 0x1C:
+            ps_driver->control_key_pressed = 'E';
+            break;
+        case 0x0E:
+            ps_driver->control_key_pressed = 'B';
+            break;
+        case 0x1D:
+            ps_driver->control_key_pressed = 'A';
+            break;
+        case 0xE0:
+            ps_driver->control_key_pressed = 'S';
+            break;
+        case 0x0C:
+            ps_driver->key_pressed = '-';
+            break;
+        case 0x0D:
+            ps_driver->key_pressed = '=';
+            break;
+        case 0x1A:
+            ps_driver->key_pressed = '[';
+            break;
+        case 0x1B:
+            ps_driver->key_pressed = ']';
+            break;
+        case 0x27:
+            ps_driver->key_pressed = ';';
+            break;
+        case 0x28:
+            ps_driver->key_pressed = '\'';
+            break;
+        case 0x29:
+            ps_driver->key_pressed = '`';
+            break;
+        case 0x2B:
+            ps_driver->key_pressed = '\\';
+            break;
+        case 0x33:
+            ps_driver->key_pressed = ',';
+            break;
+        case 0x34:
+            ps_driver->key_pressed = '.';
+            break;
+        case 0x35:
+            ps_driver->key_pressed = '/';
+            break;
+
+
         case 0x1E + 0x80:
-            ps_driver->key_relesed = 'A';
+            ps_driver->key_relesed = 'a';
             break;
         case 0x30 + 0x80:
-            ps_driver->key_relesed = 'B';
+            ps_driver->key_relesed = 'b';
             break;
         case 0x2E + 0x80:
-            ps_driver->key_relesed = 'C';
+            ps_driver->key_relesed = 'c';
             break;
         case 0x20 + 0x80:
-            ps_driver->key_relesed = 'D';
+            ps_driver->key_relesed = 'd';
             break;
         case 0x12 + 0x80:
-            ps_driver->key_relesed = 'E';
+            ps_driver->key_relesed = 'e';
             break;
         case 0x21 + 0x80:
-            ps_driver->key_relesed = 'F';
+            ps_driver->key_relesed = 'f';
             break;
         case 0x22 + 0x80:
-            ps_driver->key_relesed = 'G';
+            ps_driver->key_relesed = 'g';
             break;
         case 0x23 + 0x80:
-            ps_driver->key_relesed = 'H';
+            ps_driver->key_relesed = 'h';
             break;
         case 0x17 + 0x80:
-            ps_driver->key_relesed = 'I';
+            ps_driver->key_relesed = 'i';
             break;
         case 0x24 + 0x80:
-            ps_driver->key_relesed = 'J';
+            ps_driver->key_relesed = 'j';
             break;
         case 0x25 + 0x80:
-            ps_driver->key_relesed = 'K';
+            ps_driver->key_relesed = 'k';
             break;
         case 0x26 + 0x80:
-            ps_driver->key_relesed = 'L';
+            ps_driver->key_relesed = 'l';
             break;
         case 0x32 + 0x80:
-            ps_driver->key_relesed = 'M';
+            ps_driver->key_relesed = 'm';
             break;
         case 0x31 + 0x80:
-            ps_driver->key_relesed = 'N';
+            ps_driver->key_relesed = 'n';
             break;
         case 0x18 + 0x80:
-            ps_driver->key_relesed = 'O';
+            ps_driver->key_relesed = 'o';
             break;
         case 0x19 + 0x80:
-            ps_driver->key_relesed = 'P';
+            ps_driver->key_relesed = 'p';
             break;
         case 0x10 + 0x80:
-            ps_driver->key_relesed = 'Q';
+            ps_driver->key_relesed = 'q';
             break;
         case 0x13 + 0x80:
-            ps_driver->key_relesed = 'R';
+            ps_driver->key_relesed = 'r';
             break;
         case 0x1F + 0x80:
-            ps_driver->key_relesed = 'S';
+            ps_driver->key_relesed = 's';
             break;
         case 0x14 + 0x80:
-            ps_driver->key_relesed = 'T';
+            ps_driver->key_relesed = 't';
             break;
         case 0x16 + 0x80:
-            ps_driver->key_relesed = 'U';
+            ps_driver->key_relesed = 'u';
             break;
         case 0x2F + 0x80:
-            ps_driver->key_relesed = 'V';
+            ps_driver->key_relesed = 'v';
             break;
         case 0x11 + 0x80:
-            ps_driver->key_relesed = 'W';
+            ps_driver->key_relesed = 'w';
             break;
         case 0x2D + 0x80:
-            ps_driver->key_relesed = 'X';
+            ps_driver->key_relesed = 'x';
             break;
         case 0x15 + 0x80:
-            ps_driver->key_relesed = 'Y';
+            ps_driver->key_relesed = 'y';
             break;
         case 0x2C + 0x80:
-            ps_driver->key_relesed = 'Z';
+            ps_driver->key_relesed = 'z';
             break;
         case 0x39 + 0x80:
             ps_driver->key_relesed = ' ';
-            break;
-        case 0x1C + 0x80:
-            ps_driver->control_key_relesed = 'E';
-            break;
-        case 0x0E + 0x80:
-            ps_driver->control_key_relesed = 'B';
             break;
         case 0x02 + 0x80:
             ps_driver->key_relesed = '1';
@@ -253,6 +302,57 @@ void char_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t char_code)
             break;
         case 0x0B + 0x80:
             ps_driver->key_relesed = '0';
+            break;
+        case 0x2A + 0x80:
+            ps_driver->control_key_pressed = 'Q';
+            break;
+        case 0x36 + 0x80:
+            ps_driver->control_key_pressed = 'W';
+            break;
+        case 0x1C + 0x80:
+            ps_driver->control_key_pressed = 'E';
+            break;
+        case 0x0E + 0x80:
+            ps_driver->control_key_pressed = 'B';
+            break;
+        case 0x1D + 0x80:
+            ps_driver->control_key_pressed = 'A';
+            break;
+        case 0xE0 + 0x80:
+            ps_driver->control_key_pressed = 'S';
+            break;
+        case 0x0C + 0x80:
+            ps_driver->key_pressed = '-';
+            break;
+        case 0x0D + 0x80:
+            ps_driver->key_pressed = '=';
+            break;
+        case 0x1A + 0x80:
+            ps_driver->key_pressed = '[';
+            break;
+        case 0x1B + 0x80:
+            ps_driver->key_pressed = ']';
+            break;
+        case 0x27 + 0x80:
+            ps_driver->key_pressed = ';';
+            break;
+        case 0x28 + 0x80:
+            ps_driver->key_pressed = '\'';
+            break;
+        case 0x29 + 0x80:
+            ps_driver->key_pressed = '`';
+            break;
+        case 0x2B + 0x80:
+            ps_driver->key_pressed = '\\';
+            break;
+        case 0x33 + 0x80:
+            ps_driver->key_pressed = ',';
+            break;
+        case 0x34 + 0x80:
+            ps_driver->key_pressed = '.';
+            break;
+        case 0x35 + 0x80:
+            ps_driver->key_pressed = '/';
             break;
 
     }
