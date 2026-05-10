@@ -31,11 +31,13 @@ The idea of this project is to do a OS with basic stuff.
 
 1. You will need lib GNUEFI lib from debian repo ``` sudo apt install gnu-efi ```
 
-2. Make folder build in project folder  
+2. Select your prefered version from tag (for example ``` git checkout v0.1.5-alpha.1 ```)
+
+3. Make folder build in project folder  
 and open a terminal in project folder and tap "make".  
 The compilation process should begin.
 
-3. If the compilation process end up with succed  
+4. If the compilation process end up with succed  
 you will have in build folder file "MagmaCubeOS.img"
 
 ---

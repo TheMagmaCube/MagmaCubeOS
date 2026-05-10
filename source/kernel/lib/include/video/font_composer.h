@@ -9,8 +9,13 @@
 #include "font_engine.h"
 
 typedef struct{
-    uint32_t stage_row;
-    uint32_t stage_column;
+    uint32_t row;
+    uint32_t column;
+
+    uint64_t address;
+    uint32_t width;
+    uint32_t height;
+    uint32_t bpp_mode; // 1 = rgb, 2 = bgr
 
 } font_composer;
 

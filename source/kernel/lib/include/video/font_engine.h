@@ -7,6 +7,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "../../../fonts/font.h"
+
 typedef struct {
     uint32_t stage_row;
     uint32_t stage_column;
@@ -24,6 +26,11 @@ void font_selector(font_engine* font_engine, char character, int i);
 
 void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t row, uint64_t column, uint32_t width,
                  uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+
+void control_font_selector(font_engine* font_engine, Font* font, int i);
+
+void control_font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char character, uint32_t row, uint64_t column, uint32_t width,
+                         uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, Font* font);
 
 
 #endif
