@@ -6,7 +6,10 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "font_engine.h"
+#include <stdarg.h>
+#include "../../include/video/font_engine.h"
+#include "../../include/video/screen_manager.h"
+#include "../../../fonts/font.h"
 
 typedef struct{
     uint32_t row;

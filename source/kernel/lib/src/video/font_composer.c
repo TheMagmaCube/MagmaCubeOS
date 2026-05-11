@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include "../../include/video/font_engine.h"
+#include "../../include/video/screen_manager.h"
+#include "../../../fonts/font.h"
 
 
 //Define font_composer structure
@@ -48,7 +50,6 @@ void word_render(font_composer* fc, font_engine* fe, uint32_t number_of_args, ..
     }
 }
 
-void control_font_render(font_composer* fc, font_engine* fe, uint32_t number_of_args, ...){
-
-        control_font_render(fc->bpp_mode, fc->address, fe, character, fc->row, fc->column, fc->width, 0, 255, 0, 0)
+void character_clear(font_composer* fc, font_engine* fe, uint32_t number_of_args, ...){
+    clear_fragment_of_screen(fc->bpp_mode, fc->address, -width, uint32_t height);
 }

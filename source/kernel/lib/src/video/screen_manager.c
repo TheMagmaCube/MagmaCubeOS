@@ -43,6 +43,8 @@ void clear_screen(uint32_t mode, uint64_t address, uint32_t width, uint32_t heig
     }
 }
 
+void clear_fragment_of_screen(uint32_t mode, uint64_t address, uint32_t width, uint32_t height);
+
 //Add sreen overlay void for the screen
 //needs have Framebuffer parameters
 

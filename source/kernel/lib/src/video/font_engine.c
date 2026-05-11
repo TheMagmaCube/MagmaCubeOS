@@ -399,23 +399,3 @@ void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char
     }
 }
 
-void control_font_selector(font_engine* font_engine, Font* font, int i){
-    font_engine->hex_body = font->body[i];
-    hex_to_bin(font_engine);
-}
-
-
-void control_font_render(uint32_t mode, uint64_t address, font_engine* font_engine, uint32_t row, uint64_t column, uint32_t width,
-                 uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, Font* font){
-
-    for(uint32_t i = 0; i < 16; i++){
-        control_font_selector(font_engine, , i);
-        for(uint32_t k = 0; k < 8; k++){
-            uint32_t real_x = k + row * 8;
-            uint32_t real_y = i + column * 16;
-            if (font_engine->body[k] == 1){
-                put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
-            }
-        }
-    }
-}

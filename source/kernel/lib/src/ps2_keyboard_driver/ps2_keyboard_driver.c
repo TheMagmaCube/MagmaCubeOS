@@ -8,6 +8,7 @@
 #include "../../include/ps2_keyboard_driver/ps2_keyboard_io.h"
 #include "../../include/video/font_engine.h"
 #include "../../include/video/font_composer.h"
+#include "../../include/terminal/virtual_terminal.h"
 
 typedef struct{
     char key_pressed;
@@ -16,7 +17,6 @@ typedef struct{
     char control_key_released;
     uint8_t code;
     uint8_t status;
-    char rembered_char;
 
 } ps2_keyboard_scan_code_set_one;
 
@@ -369,6 +369,25 @@ void control_key_selector(ps2_keyboard_scan_code_set_one* ps_driver, uint8_t cha
 }
 
 
+void control_key_managment(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, font_engine* fe){
+
+    if(ps_driver->control_key_pressed != ps_driver->control_key_released){
+        if(ps_driver->control_key_pressed == 'E'){
+            fc->column++;
+            fc->row = 0;
+        }
+    }
+    if(ps_driver->control_key_pressed != ps_driver->control_key_released){
+        if(ps_driver->control_key_pressed == 'B'){
+            fc->row -=1;
+            word_render(fc, fe, 1, ' ');
+            fc->row -=1;
+
+        }
+    }
+}
+
+
 void control_key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, font_engine* fe){
 
     ps_driver->status = 0;
@@ -383,7 +402,6 @@ void control_key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer*
                 uint8_t number_of_args = 1;
 
                 word_render(fc, fe, number_of_args, ps_driver->key_pressed);
-
                 ps_driver->status = 1;
             }
         }
@@ -892,6 +910,7 @@ void control_key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer*
         }
 }
 
+
 void key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, font_engine* fe){
     ps_driver->code = load_data_from_register(0x60);
 
@@ -904,7 +923,6 @@ void key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, fon
     ps_driver->control_key_released = '\0';
     ps_driver->control_key_pressed = '\0';
 
-
     if((ps_driver->key_pressed != ps_driver->key_released && ps_driver->status == 0) && ps_driver->key_pressed != '\0'){
         word_render(fc, fe, number_of_args, ps_driver->key_pressed);
     }
@@ -912,6 +930,7 @@ void key_check(ps2_keyboard_scan_code_set_one* ps_driver, font_composer* fc, fon
 
     ps_driver->key_released = '\0';
     control_key_selector(ps_driver, ps_driver->code);
+    control_key_managment(ps_driver, fc, fe);
     ps_driver->key_pressed = '\0';
 
     for(uint32_t i = 0; i < 7999999 * 7; i++){
