@@ -15,15 +15,24 @@ typedef struct{
     uint8_t key_code;
 
     uint8_t left_shift_pressed;
-    uint8_t left_shift_released;
+
     uint8_t right_shift_pressed;
-    uint8_t right_shift_released;
+
     uint8_t left_ctrl_pressed;
-    uint8_t left_ctrl_released;
+
+    uint8_t right_ctrl_pressed;
+
+    uint8_t left_alt_pressed;
+
+    uint8_t right_alt_pressed;
+
     uint8_t enter_pressed;
-    uint8_t enter_released;
+
     uint8_t backspace_pressed;
-    uint8_t backspace_released;
+
+    uint16_t port_address;
+
+    uint8_t extended; //0 = false
 
     //1 = true
     //0 = false
@@ -39,15 +48,19 @@ void ps2_keyboard_driver_init(ps2_keyboard_driver* ps2_keyboard_driver){
     ps2_keyboard_driver->key_code = '\0';
 
     ps2_keyboard_driver->left_shift_pressed = 0;
-    ps2_keyboard_driver->left_shift_released = 0;
+
     ps2_keyboard_driver->right_shift_pressed = 0;
-    ps2_keyboard_driver->right_shift_released = 0;
+
     ps2_keyboard_driver->left_ctrl_pressed = 0;
-    ps2_keyboard_driver->left_ctrl_released = 0;
+
     ps2_keyboard_driver->enter_pressed = 0;
-    ps2_keyboard_driver->enter_released = 0;
+
     ps2_keyboard_driver->backspace_pressed = 0;
-    ps2_keyboard_driver->backspace_released = 0;
+
+
+    ps2_keyboard_driver->port_address = 0x60;
+
+    ps2_keyboard_driver->extended = 0;
 
 }
 
@@ -396,7 +409,35 @@ void shortcut_key_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t ke
         case 0x1D + 0x80:
             ps2_keyboard_driver->left_ctrl_pressed = '0';
             break;
+
+        case 0xE0:
+            ps2_keyboard_driver->extended = 1;
+            break;
+
     }
+
+        if(ps2_keyboard_driver->extended == 1){
+
+            ps2_keyboard_driver->key_code = load_data_from_register(ps2_keyboard_driver->port_address);
+
+            switch(ps2_keyboard_driver->key_code){
+                case 0x38:
+                    ps2_keyboard_driver->right_alt_pressed = 1;
+                    break;
+                case 0x1D:
+                    ps2_keyboard_driver->right_ctrl_pressed = 1;
+                    break;
+                case 0xB8:
+                    ps2_keyboard_driver->right_alt_pressed = 0;
+                    break;
+                case 0x9D:
+                    ps2_keyboard_driver->right_ctrl_pressed = 0;
+                    break;
+
+            }
+            ps2_keyboard_driver->extended = 0;
+        }
+
 }
 
 void shortcut_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
@@ -406,5 +447,23 @@ void shortcut_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
     ps2_keyboard_driver->enter_pressed = 0;
     ps2_keyboard_driver->backspace_pressed = 0;
     ps2_keyboard_driver->left_ctrl_pressed = 0;
+
+}
+
+void main_ps2_keyboard_driver_loop(ps2_keyboard_driver* ps2_keyboard_driver){
+
+    shortcut_key_cleaner(ps2_keyboard_driver);
+    char_key_cleaner(ps2_keyboard_driver);
+    key_code_cleaner(ps2_keyboard_driver);
+
+
+    ps2_keyboard_driver->key_code = load_data_from_register(ps2_keyboard_driver->port_address);
+
+    shortcut_key_validator(ps2_keyboard_driver, ps2_keyboard_driver->key_code);
+    char_validator(ps2_keyboard_driver, ps2_keyboard_driver->key_code);
+
+    for(uint32_t i = 0; i <  7999999 * 7 ; i++){
+
+    }
 
 }
