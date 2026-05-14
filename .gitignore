@@ -1,0 +1,4 @@
+*.kate-swp
+*build/
+*qemu_test/
+*workgroup_files/
