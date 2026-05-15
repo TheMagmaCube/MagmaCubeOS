@@ -33,7 +33,7 @@ The idea of this project is to do a OS with basic stuff.
 
 2. Select your prefered version from tag (for example ``` git checkout v0.1.5-alpha.1 ```)
 
-3. Make folder build in project folder  
+3. Make folder build and qemu_test in project folder  
 and open a terminal in project folder and tap "make".  
 The compilation process should begin.
 
