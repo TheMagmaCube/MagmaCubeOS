@@ -6,6 +6,9 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "../../include/ps2_keyboard_driver/ps2_keyboard_driver.h"
+#include "../../include/video/screen_manager.h"
+#include "../../include/video/font_composer.h"
+#include "../../include//video/font_engine.h"
 
 
 typedef struct{
@@ -64,7 +67,43 @@ void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
                 terminal_instance->column++;
             }
         }
-
     }
+}
+
+void sync_font_composer_instance(font_composer* fc, uint8_t row, uint8_t column){
+
+    fc->row = row;
+    fc->column = column;
+
+}
+
+void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe){
+
+    uint8_t row = 0;
+    uint8_t column = 0;
+
+    for(uint8_t i = 0; i < 67; i++){
+
+        column = i;
+        sync_font_composer_instance(fc, row, column);
+
+
+        for (uint8_t j = 0; j < 240; j++){
+
+            row = j;
+            sync_font_composer_instance(fc, row, column);
+
+            word_render(fc, fe, 1, terminal_instance->chars_map[row][column]);
+
+
+        }
+    }
+}
+
+void terminal_main_loop(terminal* terminal_instance){
+
+    init_terminal(terminal_instance);
+
+    sync_data_ps2_keyboard_driver(terminal_instance);
 
 }

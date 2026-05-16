@@ -49,7 +49,3 @@ void word_render(font_composer* fc, font_engine* fe, uint32_t number_of_args, ..
         }
     }
 }
-
-void character_clear(font_composer* fc, font_engine* fe, uint32_t number_of_args, ...){
-    clear_fragment_of_screen(fc->bpp_mode, fc->address, -width, uint32_t height);
-}

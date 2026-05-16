@@ -394,6 +394,8 @@ void font_render(uint32_t mode, uint64_t address, font_engine* font_engine, char
             uint32_t real_y = i + column * 16;
             if (font_engine->body[k] == 1){
                 put_pixel(mode, address, width, real_x, real_y, red, green, blue, alpha);
+            }else{
+                put_pixel(mode, address, width, real_x, real_y, 0, 0, 75, 0);
             }
         }
     }
