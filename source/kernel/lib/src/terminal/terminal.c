@@ -16,6 +16,9 @@ typedef struct{
 
     ps2_keyboard_driver ps2_keyboard_driver_instance;
 
+    uint8_t row;
+    uint8_t column;
+
 }terminal;
 
 
@@ -34,4 +37,34 @@ void init_terminal(terminal* terminal_instance){
     }
 
     init_ps2_keyboard_driver_instance(terminal_instance);
+
+    terminal_instance->row = 0;
+    terminal_instance->column = 0;
+}
+
+void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
+
+    char temp_char_pressed = '\0';
+    char temp_char_released = '\0';
+
+    temp_char_pressed = terminal_instance->ps2_keyboard_driver_instance.key_pressed;
+    temp_char_released = terminal_instance->ps2_keyboard_driver_instance.key_released;
+
+
+    if(temp_char_pressed != '\0'){
+
+        if(temp_char_pressed != temp_char_released){
+
+            terminal_instance->chars_map[terminal_instance->column][terminal_instance->row] = temp_char_pressed;
+
+            terminal_instance->row++;
+
+            if(terminal_instance->row == 240){
+
+                terminal_instance->column++;
+            }
+        }
+
+    }
+
 }
