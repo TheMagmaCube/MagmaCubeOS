@@ -20,6 +20,9 @@ typedef struct{
 
     ps2_keyboard_driver ps2_keyboard_driver_instance;
 
+    uint8_t row;
+    uint8_t column;
+
 }terminal;
 
 void init_ps2_keyboard_driver_instance(terminal* terminal_instance);
@@ -32,6 +35,6 @@ void sync_font_composer_instance(font_composer* fc, uint8_t row, uint8_t column)
 
 void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe);
 
-void terminal_main_loop(terminal* terminal_instance);
+void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_engine* fe);
 
 #endif

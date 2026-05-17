@@ -100,10 +100,15 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
     }
 }
 
-void terminal_main_loop(terminal* terminal_instance){
+void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_engine* fe){
 
-    init_terminal(terminal_instance);
+    clear_screen(fc->bpp_mode, fc->address, fc->width, fc->height);
 
     sync_data_ps2_keyboard_driver(terminal_instance);
+
+    uint8_t row = terminal_instance->row;
+    uint8_t column = terminal_instance->column;
+
+    sync_video(terminal_instance, fc, fe);
 
 }

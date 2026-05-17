@@ -4,6 +4,7 @@
 #include "./lib/include/video/screen_manager.h"
 #include "./lib/include/video/font_composer.h"
 #include "./lib/include/ps2_keyboard_driver/ps2_keyboard_driver.h"
+#include "./lib/include/terminal/terminal.h"
 
 
 //Main kernel loop
@@ -16,7 +17,6 @@ int kernel_main(framebuffer* fb_from_bootloader){
     framebuffer fb;
     font_engine fe;
     font_composer fc;
-    ps2_keyboard_scan_code_set_one ps2_driver;
 
     //Framebuffer variable init
     framebuffer_init(fb_from_bootloader, &fb);
@@ -27,20 +27,13 @@ int kernel_main(framebuffer* fb_from_bootloader){
     //Font composer init
     font_composer_init(&fc, fb.address, fb.width, fb.height, fb.bpp_mode);
 
-    //Clearing screen
+    terminal t;
 
-    clear_screen(fb.bpp_mode, fb.address, fb.width, fb.height);
-
-    //Testing fonts
-    word_render(&fc, &fe, 7, 'M', 'A', 'G', 'M', 'A', 'O', 'S');
-
-    //add_screen_overlay(fb.bpp_mode, fb.address, fb.width);
-
-    //Loop for kernel because we don't want to kernel
-    //stop
+    init_terminal(&t);
 
     while(1){
-        key_check(&ps2_driver, &fc, &fe);
+
+        terminal_main_loop(&t, &fc, &fe);
 
     }
     //return for readability
