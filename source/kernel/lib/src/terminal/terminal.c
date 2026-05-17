@@ -47,6 +47,8 @@ void init_terminal(terminal* terminal_instance){
 
 void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
 
+    main_ps2_keyboard_driver_loop(&terminal_instance->ps2_keyboard_driver_instance);
+
     char temp_char_pressed = '\0';
     char temp_char_released = '\0';
 
@@ -93,21 +95,18 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
             row = j;
             sync_font_composer_instance(fc, row, column);
 
-            word_render(fc, fe, 1, terminal_instance->chars_map[row][column]);
+            if(terminal_instance->chars_map[row][column] != '\0'){
 
+                word_render(fc, fe, 1, terminal_instance->chars_map[row][column]);
 
+            }
         }
     }
 }
 
 void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_engine* fe){
 
-    clear_screen(fc->bpp_mode, fc->address, fc->width, fc->height);
-
     sync_data_ps2_keyboard_driver(terminal_instance);
-
-    uint8_t row = terminal_instance->row;
-    uint8_t column = terminal_instance->column;
 
     sync_video(terminal_instance, fc, fe);
 
