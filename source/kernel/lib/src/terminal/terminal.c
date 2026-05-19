@@ -35,7 +35,7 @@ void init_terminal(terminal* terminal_instance){
 
     for(uint8_t i = 0; i < 67; i++){
         for(uint8_t j = 0; j < 240; j++){
-            terminal_instance->chars_map[i][j] = '\0';
+            terminal_instance->chars_map[i][j] = ' ';
         }
     }
 
@@ -67,6 +67,8 @@ void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
             if(terminal_instance->row == 240){
 
                 terminal_instance->column++;
+
+                terminal_instance->row = 0;
             }
         }
     }
@@ -87,17 +89,15 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
     for(uint8_t i = 0; i < 67; i++){
 
         column = i;
-        sync_font_composer_instance(fc, row, column);
-
 
         for (uint8_t j = 0; j < 240; j++){
 
             row = j;
             sync_font_composer_instance(fc, row, column);
 
-            if(terminal_instance->chars_map[row][column] != '\0'){
+            if(terminal_instance->chars_map[column][row] != '\0'){
 
-                word_render(fc, fe, 1, terminal_instance->chars_map[row][column]);
+                word_render(fc, fe, 1, terminal_instance->chars_map[column][row]);
 
             }
         }
@@ -109,5 +109,7 @@ void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_eng
     sync_data_ps2_keyboard_driver(terminal_instance);
 
     sync_video(terminal_instance, fc, fe);
+
+    clear_screen(fc->bpp_mode, fc->address, fc->width, fc->height);
 
 }

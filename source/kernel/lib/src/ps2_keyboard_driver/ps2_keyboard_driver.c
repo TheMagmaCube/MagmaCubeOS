@@ -416,27 +416,27 @@ void shortcut_key_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t ke
 
     }
 
-        if(ps2_keyboard_driver->extended == 1){
+    if(ps2_keyboard_driver->extended == 1){
 
-            ps2_keyboard_driver->key_code = load_data_from_register(ps2_keyboard_driver->port_address);
+        ps2_keyboard_driver->key_code = load_data_from_register(ps2_keyboard_driver->port_address);
 
-            switch(ps2_keyboard_driver->key_code){
-                case 0x38:
-                    ps2_keyboard_driver->right_alt_pressed = 1;
-                    break;
-                case 0x1D:
-                    ps2_keyboard_driver->right_ctrl_pressed = 1;
-                    break;
-                case 0xB8:
-                    ps2_keyboard_driver->right_alt_pressed = 0;
-                    break;
-                case 0x9D:
-                    ps2_keyboard_driver->right_ctrl_pressed = 0;
-                    break;
+        switch(ps2_keyboard_driver->key_code){
+            case 0x38:
+                ps2_keyboard_driver->right_alt_pressed = 1;
+                break;
+            case 0x1D:
+                ps2_keyboard_driver->right_ctrl_pressed = 1;
+                break;
+            case 0xB8:
+                ps2_keyboard_driver->right_alt_pressed = 0;
+                break;
+            case 0x9D:
+                ps2_keyboard_driver->right_ctrl_pressed = 0;
+                break;
 
-            }
-            ps2_keyboard_driver->extended = 0;
         }
+        ps2_keyboard_driver->extended = 0;
+    }
 
 }
 
