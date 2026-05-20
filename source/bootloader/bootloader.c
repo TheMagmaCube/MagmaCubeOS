@@ -48,39 +48,6 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
         return Status;
     }
 
-    //Changing screen resolution
-
-    for (UINT32 i = 0; i < gop->Mode->MaxMode; i++) {
-        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *graphic_info;
-        UINTN size;
-
-        Status = uefi_call_wrapper(
-            gop->QueryMode,
-            4,
-            gop,
-            i,
-            &size,
-            &graphic_info
-        );
-
-        if (EFI_ERROR(Status)) {
-            Print(L"Bootloader error: %r\n",Status);
-            return Status;
-        }
-
-        if (graphic_info->HorizontalResolution == 1920 &&
-            graphic_info->VerticalResolution == 1080) {
-
-        Status = uefi_call_wrapper(
-            gop->SetMode,
-            2,
-            gop,
-            i
-        );
-            break;
-            }
-
-    }
     //Setting 32 bits per pixel
 
     UINT32 framebuffer_32_bits_per_pixel = 0;
@@ -472,6 +439,40 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
             0);
 
     }
+    }
+
+    //Changing screen resolution
+
+    for (UINT32 i = 0; i < gop->Mode->MaxMode; i++) {
+        EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *graphic_info;
+        UINTN size;
+
+        Status = uefi_call_wrapper(
+            gop->QueryMode,
+            4,
+            gop,
+            i,
+            &size,
+            &graphic_info
+        );
+
+        if (EFI_ERROR(Status)) {
+            Print(L"Bootloader error: %r\n",Status);
+            return Status;
+        }
+
+        if (graphic_info->HorizontalResolution == 1920 &&
+            graphic_info->VerticalResolution == 1080) {
+
+            Status = uefi_call_wrapper(
+                gop->SetMode,
+                2,
+                gop,
+                i
+            );
+        break;
+            }
+
     }
 
 

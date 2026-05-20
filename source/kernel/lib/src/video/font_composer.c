@@ -44,8 +44,5 @@ void word_render(font_composer* fc, font_engine* fe, uint32_t number_of_args, ..
 
         font_render(fc->bpp_mode, fc->address, fe, character, fc->row, fc->column, fc->width, 0, 255, 0, 0);
 
-        if(character != '\n'){
-            fc->row++;
-        }
     }
 }

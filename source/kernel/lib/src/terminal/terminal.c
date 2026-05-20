@@ -86,11 +86,12 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
     uint8_t row = 0;
     uint8_t column = 0;
 
+
     for(uint8_t i = 0; i < 67; i++){
 
         column = i;
 
-        for (uint8_t j = 0; j < 240; j++){
+        for (uint8_t j = 0; j < 140; j++){
 
             row = j;
             sync_font_composer_instance(fc, row, column);
@@ -110,6 +111,5 @@ void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_eng
 
     sync_video(terminal_instance, fc, fe);
 
-    clear_screen(fc->bpp_mode, fc->address, fc->width, fc->height);
 
 }
