@@ -29,7 +29,7 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     terminal t;
 
-    init_terminal(&t);
+    init_terminal(&t, fb.bpp_mode, fb.address, fb.width, fb.height);
 
     while(1){
 

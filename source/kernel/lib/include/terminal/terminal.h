@@ -27,7 +27,7 @@ typedef struct{
 
 void init_ps2_keyboard_driver_instance(terminal* terminal_instance);
 
-void init_terminal(terminal* terminal_instance);
+void init_terminal(terminal* terminal_instance, uint32_t mode, uint64_t address, uint32_t width, uint32_t height);
 
 void sync_data_ps2_keyboard_driver(terminal* terminal_instance);
 

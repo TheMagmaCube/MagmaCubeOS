@@ -476,6 +476,11 @@ efi_main (EFI_HANDLE Image_handle, EFI_SYSTEM_TABLE *System_table)
     }
 
 
+    fb->width  = gop->Mode->Info->HorizontalResolution;
+    fb->height = gop->Mode->Info->VerticalResolution;
+    fb->pitch  = gop->Mode->Info->PixelsPerScanLine;
+
+
     //We have been injected kernel.elf to RAM.
 
     //We can do stub after efi aplication will end and there will

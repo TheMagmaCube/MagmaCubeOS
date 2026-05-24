@@ -17,6 +17,9 @@ typedef struct{
 
     char chars_map[67][240];
 
+    uint8_t total_rows;
+    uint8_t total_columns;
+
     ps2_keyboard_driver ps2_keyboard_driver_instance;
 
     uint8_t row;
@@ -31,10 +34,16 @@ void init_ps2_keyboard_driver_instance(terminal* terminal_instance){
 
 }
 
-void init_terminal(terminal* terminal_instance){
+void init_terminal(terminal* terminal_instance, uint32_t mode, uint64_t address, uint32_t width, uint32_t height){
 
-    for(uint8_t i = 0; i < 67; i++){
-        for(uint8_t j = 0; j < 240; j++){
+    terminal_instance->total_rows = 240;
+    terminal_instance->total_columns = 67;
+
+    uint8_t temp_total_rows = terminal_instance->total_rows;
+    uint8_t temp_total_columns = terminal_instance->total_columns;
+
+    for(uint8_t i = 0; i < temp_total_columns; i++){
+        for(uint8_t j = 0; j < temp_total_rows; j++){
             terminal_instance->chars_map[i][j] = ' ';
         }
     }
@@ -43,6 +52,9 @@ void init_terminal(terminal* terminal_instance){
 
     terminal_instance->row = 0;
     terminal_instance->column = 0;
+
+    clear_screen(mode, address, width, height);
+
 }
 
 void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
@@ -55,6 +67,9 @@ void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
     temp_char_pressed = terminal_instance->ps2_keyboard_driver_instance.key_pressed;
     temp_char_released = terminal_instance->ps2_keyboard_driver_instance.key_released;
 
+    uint8_t temp_total_rows = terminal_instance->total_rows;
+    uint8_t temp_total_columns = terminal_instance->total_columns;
+
 
     if(temp_char_pressed != '\0'){
 
@@ -64,7 +79,7 @@ void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
 
             terminal_instance->row++;
 
-            if(terminal_instance->row == 240){
+            if(terminal_instance->row == temp_total_rows){
 
                 terminal_instance->column++;
 
@@ -86,12 +101,15 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
     uint8_t row = 0;
     uint8_t column = 0;
 
+    uint8_t temp_total_rows = terminal_instance->total_rows;
+    uint8_t temp_total_columns = terminal_instance->total_columns;
 
-    for(uint8_t i = 0; i < 67; i++){
+
+    for(uint8_t i = 0; i < temp_total_columns; i++){
 
         column = i;
 
-        for (uint8_t j = 0; j < 140; j++){
+        for (uint8_t j = 0; j < temp_total_rows; j++){
 
             row = j;
             sync_font_composer_instance(fc, row, column);
