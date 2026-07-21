@@ -10,7 +10,7 @@
 #include "../../include/video/font_composer.h"
 #include "../../include//video/font_engine.h"
 
-
+//definie terminal structure
 typedef struct{
     //1920 / 8 = 240 chars per row
     //1080 / 16 = 67.5 columns
@@ -27,13 +27,14 @@ typedef struct{
 
 }terminal;
 
-
+//init_ps2_keyboard_driver_instance func need for init ps2_keyboard_driver instance
 void init_ps2_keyboard_driver_instance(terminal* terminal_instance){
 
     ps2_keyboard_driver_init(&terminal_instance->ps2_keyboard_driver_instance);
 
 }
 
+//init_terminal need for init terminal instance
 void init_terminal(terminal* terminal_instance, uint32_t mode, uint64_t address, uint32_t width, uint32_t height){
 
     terminal_instance->total_rows = 240;
@@ -57,6 +58,7 @@ void init_terminal(terminal* terminal_instance, uint32_t mode, uint64_t address,
 
 }
 
+//sync_data_ps2_keyboard_driver func need for sync data from ps2_keyboard_driver
 void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
 
     main_ps2_keyboard_driver_loop(&terminal_instance->ps2_keyboard_driver_instance);
@@ -89,13 +91,14 @@ void sync_data_ps2_keyboard_driver(terminal* terminal_instance){
     }
 }
 
+//sync_font_composer_instance func need to sync data with font_composer
 void sync_font_composer_instance(font_composer* fc, uint8_t row, uint8_t column){
 
     fc->row = row;
     fc->column = column;
 
 }
-
+//sync_video func need for sync data with video
 void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe){
 
     uint8_t row = 0;
@@ -123,6 +126,7 @@ void sync_video(terminal* terminal_instance ,font_composer* fc, font_engine* fe)
     }
 }
 
+//terminal_main_loop func need for be main loop of a terminal
 void terminal_main_loop(terminal* terminal_instance, font_composer* fc, font_engine* fe){
 
     sync_data_ps2_keyboard_driver(terminal_instance);

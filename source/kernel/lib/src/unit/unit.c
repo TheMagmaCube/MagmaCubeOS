@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-
+//definie unit_state for state of unit
 typedef enum{
     TASK_READY,
     TASK_RUNNING,
@@ -16,6 +16,8 @@ typedef enum{
 
 } unit_state;
 
+//define registers_state structure
+//for save registers state for unit
 typedef struct{
     uint64_t rax;
     uint64_t rbx;
@@ -41,10 +43,29 @@ typedef struct{
 } registers_state;
 
 
-
+//define structure of unit
 typedef struct{
     uint64_t id;
     unit_state state;
 
+    registers_state registers;
+
+    uint8_t stack[4096];
+
 
 } unit;
+
+//unit_init func need for init the unit
+void unit_init(unit *unit, uint64_t id, void (*entry)(void)){
+
+    unit->id = id;
+    unit->state = TASK_READY;
+
+    unit->registers = (registers_state){0};
+
+    unit->registers.rsp = (uint64_t)&(unit->stack[4096]);
+
+    unit->registers.rip = (uint64_t)entry;
+
+
+}

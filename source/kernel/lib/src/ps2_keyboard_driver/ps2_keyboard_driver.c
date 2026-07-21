@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "../../include/ps2_keyboard_driver/ps2_keyboard_io.h"
 
+//Definie ps2_keyboard_driver structure
 typedef struct{
 
     char key_pressed;
@@ -39,7 +40,7 @@ typedef struct{
 
 } ps2_keyboard_driver;
 
-
+//ps2_keyboard_driver_init func need for init the driver
 void ps2_keyboard_driver_init(ps2_keyboard_driver* ps2_keyboard_driver){
 
     ps2_keyboard_driver->key_pressed = '\0';
@@ -64,7 +65,7 @@ void ps2_keyboard_driver_init(ps2_keyboard_driver* ps2_keyboard_driver){
 
 }
 
-
+//char_validator need for compare key_code with char
 void char_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t key_code){
 
     switch(key_code){
@@ -362,6 +363,7 @@ void char_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t key_code){
     }
 }
 
+//char_key_cleaner func need for clean ps2_keyboard_driver key variables
 void char_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
 
     ps2_keyboard_driver->key_pressed = '\0';
@@ -369,12 +371,14 @@ void char_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
 
 }
 
+//key_code_cleaner func need for clear ps2_keyboard_driver key_code variable
 void key_code_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
 
     ps2_keyboard_driver->key_code = '\0';
 
 }
 
+//shortcut_key_validator func need for get status of shortcut keys
 void shortcut_key_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t key_code){
 
     switch(key_code){
@@ -440,6 +444,7 @@ void shortcut_key_validator(ps2_keyboard_driver* ps2_keyboard_driver, uint8_t ke
 
 }
 
+//shortcut_key_cleaner func need for clear ps2_keyboard_driver shortcut variables
 void shortcut_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
 
     ps2_keyboard_driver->left_shift_pressed = 0;
@@ -450,6 +455,7 @@ void shortcut_key_cleaner(ps2_keyboard_driver* ps2_keyboard_driver){
 
 }
 
+//main_ps2_keyboard_driver_loop func need for be a main loop of a ps2_keyboard_driver
 void main_ps2_keyboard_driver_loop(ps2_keyboard_driver* ps2_keyboard_driver){
 
     shortcut_key_cleaner(ps2_keyboard_driver);
