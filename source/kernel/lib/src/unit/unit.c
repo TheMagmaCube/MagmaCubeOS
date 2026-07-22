@@ -1,11 +1,10 @@
-//Main uint lib
+//Main unit lib
 
 //including libs
 
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdarg.h>
 
 //definie unit_state for state of unit
 typedef enum{
@@ -51,7 +50,6 @@ typedef struct{
     registers_state registers;
 
     uint8_t stack[4096];
-
 
 } unit;
 

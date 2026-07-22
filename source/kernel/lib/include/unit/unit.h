@@ -1,12 +1,11 @@
 #pragma once
 
 #ifndef UNIT_H
-#define UINT_H
+#define UNIT_H
 
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdarg.h>
 
 typedef enum{
     TASK_READY,
