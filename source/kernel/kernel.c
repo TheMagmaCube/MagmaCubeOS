@@ -5,12 +5,17 @@
 #include "./lib/include/video/font_composer.h"
 #include "./lib/include/ps2_keyboard_driver/ps2_keyboard_driver.h"
 #include "./lib/include/terminal/terminal.h"
+#include "./lib/include/unit/gdt.h"
 
 
 //Main kernel loop
 //Getting parameters about GOP from entry.s
 
 int kernel_main(framebuffer* fb_from_bootloader){
+
+    //Initializing gdt
+
+    gdt_init();
 
     //Initializing local framebufer variable
 

@@ -11,11 +11,14 @@ all:
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/ps2_keyboard_driver/ps2_keyboard_io.s -o ./build/ps2_keyboard_io.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/terminal/terminal.c -o ./build/terminal.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/unit.c -o ./build/unit.o
-	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt.c -o ./build/idt.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/gdt_load.s -o ./build/gdt_load.o
-	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/gdt.s -o ./build/gdt.o
-	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/context_switch.s -o ./build/context_switch.o
-	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/idt.o ./build/gdt_load.o ./build/gdt.o ./build/context_switch.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/gdt.c -o ./build/gdt.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/context_switch.c -o ./build/context_switch.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt.c -o ./build/idt.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt_load.s -o ./build/idt_load.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/interrupts.s -o ./build/interrupts.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/isr.c -o ./build/isr.o
+	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt_load.o ./build/gdt.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/interrupts.o ./build/isr.o
 	@ gcc -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/entry.s -o ./build/entry.o
 	@ gcc -I./source/kernel/lib/include -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/kernel.c -o ./build/kernel.o
 	@ ld -nostdlib -T ./linkers/link.ld ./build/entry.o ./build/kernel.o ./build/magmalib.a -o ./build/kernel.elf

@@ -1,0 +1,9 @@
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+void divide_handler(){
+    while(1){
+
+    }
+}
