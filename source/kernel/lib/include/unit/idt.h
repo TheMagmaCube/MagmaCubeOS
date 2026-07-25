@@ -21,4 +21,8 @@ typedef struct{
 
 } __attribute__ ((packed)) idt;
 
+void idt_set_gate(int vector, uint64_t handler, idt *idt_instance);
+
+void idt_init();
+
 #endif

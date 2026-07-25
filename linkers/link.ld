@@ -6,7 +6,7 @@ PHDRS
 }
 SECTIONS
 {
-    . = 0x100000000;
+    . = 0x100000;
     .text : { *(.text*) } :text
     .rodata : { *(.rodata*) } :text
     .eh_frame : { *(.eh_frame*) } :text

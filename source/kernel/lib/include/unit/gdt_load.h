@@ -16,4 +16,6 @@ typedef struct{
 
 void gdt_load_pointer_to_cpu(gdt_pointer *gdt_pointer);
 
+void reload_cs();
+
 #endif

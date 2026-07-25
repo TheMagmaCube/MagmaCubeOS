@@ -16,6 +16,9 @@ gdt_load_pointer_to_cpu:
     lgdt [rcx]
 
     #call reload_cs
-    jmp 0x08:reload_cs
+    push 0x08
+    lea rax, [rip + reload_cs]
+    push rax
+    retfq
 
     ret

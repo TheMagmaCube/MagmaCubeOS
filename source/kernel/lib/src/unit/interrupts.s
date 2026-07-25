@@ -5,10 +5,10 @@
 
 isr0:
 
-    push rax
-    push rbx
-    push rcx
-    push rdx
+    #push rax
+    #push rbx
+    #push rcx
+    #push rdx
 
     sub rsp, 32
 
@@ -16,9 +16,9 @@ isr0:
 
     sub rsp, 32
 
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
+    #pop rdx
+    #pop rcx
+    #pop rbx
+    #pop rax
 
     iretq

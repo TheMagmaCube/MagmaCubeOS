@@ -28,8 +28,14 @@ void gdt_init(){
     gdt_table[1] = (gdt){0};
     gdt_table[1].access = 0x9A;
 
+    gdt_table[1].limit_low = 0xFFFF;
+    gdt_table[1].flags = 0xAF;
+
     gdt_table[2] = (gdt){0};
     gdt_table[2].access = 0x92;
+
+    gdt_table[2].limit_low = 0xFFFF;
+    gdt_table[2].flags = 0xAF;
 
     gdt_pointer gdt_ptr;
 
