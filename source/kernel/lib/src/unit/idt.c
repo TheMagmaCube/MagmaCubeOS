@@ -8,6 +8,8 @@
 #include "../../include/unit/idt_load.h"
 #include "../../include/unit/interrupts.h"
 
+extern void isr0();
+
 typedef struct{
     uint16_t offset_low;
     uint16_t selector;
@@ -39,11 +41,13 @@ void idt_init(){
 
     idt_pointer idt_ptr;
 
-    idt_set_gate(0, (uint64_t)isr0, idt_instance);
-
     for(int i = 0; i < 256; i++){
         idt_instance[i] = (idt){0};
     }
+
+    idt_set_gate(0, (uint64_t)isr0, idt_instance);
+    idt_set_gate(8, (uint64_t)isr0, idt_instance);
+    idt_set_gate(6, (uint64_t)isr0, idt_instance);
 
     idt_ptr.base = (uint64_t)&idt_instance;
     idt_ptr.limit = sizeof(idt_instance) -1;

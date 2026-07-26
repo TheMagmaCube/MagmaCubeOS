@@ -14,7 +14,7 @@ isr0:
 
     call divide_handler
 
-    sub rsp, 32
+    add rsp, 32
 
     #pop rdx
     #pop rcx

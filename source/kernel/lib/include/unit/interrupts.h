@@ -7,6 +7,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-void isr0();
+void isr0(void);
 
 #endif

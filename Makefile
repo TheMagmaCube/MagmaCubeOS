@@ -14,14 +14,14 @@ all:
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/gdt_load.s -o ./build/gdt_load.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/gdt.c -o ./build/gdt.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/context_switch.c -o ./build/context_switch.o
-	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt.c -o ./build/idt.o -fno-pie
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt.c -o ./build/idt.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/idt_load.s -o ./build/idt_load.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/interrupts.s -o ./build/interrupts.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/unit/isr.c -o ./build/isr.o
-	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt_load.o ./build/gdt.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/interrupts.o ./build/isr.o
+	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt.o ./build/gdt_load.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/isr.o ./build/interrupts.o
 	@ gcc -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/entry.s -o ./build/entry.o
-	@ gcc -I./source/kernel/lib/include -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/kernel.c -o ./build/kernel.o -no-pie
-	@ ld -nostdlib -T ./linkers/link.ld ./build/entry.o ./build/kernel.o ./build/magmalib.a -o ./build/kernel.elf
+	@ gcc -I./source/kernel/lib/include -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/kernel.c -o ./build/kernel.o
+	@ ld -nostdlib -z max-page-size=0x1000 -T ./linkers/link.ld ./build/entry.o ./build/kernel.o ./build/magmalib.a -o ./build/kernel.elf
 
 	@ rm ./build/entry.o
 	@ rm ./build/kernel.o

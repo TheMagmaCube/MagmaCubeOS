@@ -16,7 +16,7 @@ typedef struct{
     uint8_t access;
     uint8_t flags;
     uint8_t base_high;
-} gdt;
+} __attribute__ ((packed)) gdt;
 
 void gdt_init();
 

@@ -20,7 +20,7 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     //Initializing idt
 
-    //idt_init();
+    idt_init();
 
     //Initializing local framebufer variable
 
@@ -42,12 +42,10 @@ int kernel_main(framebuffer* fb_from_bootloader){
     init_terminal(&t, fb.bpp_mode, fb.address, fb.width, fb.height);
 
 
+
     while(1){
 
         terminal_main_loop(&t, &fc, &fe);
-        //int a = 1;
-        //int b = 0;
-        //int x = a / b;
 
     }
     //return for readability

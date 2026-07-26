@@ -17,7 +17,7 @@ typedef struct{
     uint8_t flags;
     uint8_t base_high;
 
-} gdt;
+} __attribute__ ((packed)) gdt;
 
 gdt gdt_table[3];
 
