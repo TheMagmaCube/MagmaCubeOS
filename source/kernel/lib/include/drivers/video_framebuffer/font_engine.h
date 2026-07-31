@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "../../../fonts/font.h"
+#include "../../../../fonts/font.h"
 
 typedef struct {
     uint32_t stage_row;

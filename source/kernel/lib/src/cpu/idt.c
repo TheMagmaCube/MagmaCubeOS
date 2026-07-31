@@ -5,8 +5,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../../include/unit/idt_load.h"
-#include "../../include/unit/interrupts.h"
+#include "../../include/cpu/idt_load.h"
+#include "../../include/cpu/interrupts.h"
 
 extern void isr0();
 

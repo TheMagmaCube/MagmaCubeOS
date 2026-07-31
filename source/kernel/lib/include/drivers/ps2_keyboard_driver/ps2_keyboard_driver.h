@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../../include/ps2_keyboard_driver/ps2_keyboard_io.h"
+#include "../../../include/drivers/ps2_keyboard_driver/ps2_keyboard_io.h"
 
 
 typedef struct{

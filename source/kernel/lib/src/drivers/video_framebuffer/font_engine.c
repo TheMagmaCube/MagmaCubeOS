@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../../../fonts/font.h"
-#include "../../include/video/screen_manager.h"
+#include "../../../../fonts/font.h"
+#include "../../../include/drivers/video_framebuffer/screen_manager.h"
 
 // font_engine struct
 typedef struct {

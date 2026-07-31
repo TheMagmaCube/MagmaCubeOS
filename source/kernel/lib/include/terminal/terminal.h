@@ -6,10 +6,10 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "../../include/ps2_keyboard_driver/ps2_keyboard_driver.h"
-#include "../../include/video/screen_manager.h"
-#include "../../include/video/font_composer.h"
-#include "../../include//video/font_engine.h"
+#include "../../include/drivers/ps2_keyboard_driver/ps2_keyboard_driver.h"
+#include "../../include/drivers/video_framebuffer/screen_manager.h"
+#include "../../include/drivers/video_framebuffer/font_composer.h"
+#include "../../include/drivers/video_framebuffer/font_engine.h"
 
 
 typedef struct{

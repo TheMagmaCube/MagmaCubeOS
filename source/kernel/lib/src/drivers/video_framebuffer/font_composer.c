@@ -6,9 +6,9 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include "../../include/video/font_engine.h"
-#include "../../include/video/screen_manager.h"
-#include "../../../fonts/font.h"
+#include "../../../include/drivers/video_framebuffer/font_engine.h"
+#include "../../../include/drivers/video_framebuffer/screen_manager.h"
+#include "../../../../fonts/font.h"
 
 
 //Define font_composer structure

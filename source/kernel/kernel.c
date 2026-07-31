@@ -1,12 +1,12 @@
 //kernel code
-#include "./lib/include/video/framebuffer.h"
-#include "./lib/include/video/font_engine.h"
-#include "./lib/include/video/screen_manager.h"
-#include "./lib/include/video/font_composer.h"
-#include "./lib/include/ps2_keyboard_driver/ps2_keyboard_driver.h"
+#include "./lib/include/drivers/video_framebuffer/framebuffer.h"
+#include "./lib/include/drivers/video_framebuffer/font_engine.h"
+#include "./lib/include/drivers/video_framebuffer/screen_manager.h"
+#include "./lib/include/drivers/video_framebuffer/font_composer.h"
+#include "./lib/include/drivers/ps2_keyboard_driver/ps2_keyboard_driver.h"
 #include "./lib/include/terminal/terminal.h"
-#include "./lib/include/unit/gdt.h"
-#include "./lib/include/unit/idt.h"
+#include "./lib/include/cpu/gdt.h"
+#include "./lib/include/cpu/idt.h"
 
 
 //Main kernel loop
