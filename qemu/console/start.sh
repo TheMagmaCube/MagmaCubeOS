@@ -1,5 +1,5 @@
 #!/bin/bash
-/home/hubert/qemu/qemu_x64_exe/bin/qemu-system-x86_64 \
+./qemu-system-x86_64 \
   -M q35 \
   -m 1G \
   -smp 1 \
