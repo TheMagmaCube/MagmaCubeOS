@@ -29,7 +29,8 @@ The idea of this project is to do a OS with basic stuff.
 
 ### BUILDING
 
-1. You will need lib GNUEFI lib from debian repo ``` sudo apt install gnu-efi ```
+1. You will need lib GNUEFI lib from debian repo ``` sudo apt install gnu-efi ```  
+and standard libs for compilation process ``` sudo apt install build-essential binutils mtools dosfstools qemu-system-x86 ovmf ```
 
 2. Select your prefered version from tag (for example ``` git checkout v0.1.5-alpha.1 ```)
 
@@ -50,13 +51,17 @@ you will have in build folder file "MagmaCubeOS.img"
 
 ### TESTING
 
-I suggest to use qemu with UEFI.
+I suggest to use qemu with UEFI.  
+The UEFI files (OVMF_CODE.fd, OVMF_VARS.fd) are nessecary for proper OS running  
+You can search them at (/usr/share/OVMF/OVMF_CODE.fd, /usr/share/OVMF/OVMF_VARS.fd) and copy to qemu_test folder.  
+That UEFI files (in vm directory (qemu_test)) need change owner from root to your user, because in other way qemu can't access it while runing vm.  
+
 
 recommended command for qemu on debian:
 
 ```bash
 #!/bin/bash
-/home/hubert/qemu/qemu_x64_exe/bin/qemu-system-x86_64 \
+qemu-system-x86_64 \
   -M q35 \
   -m 1G \
   -smp 1 \
