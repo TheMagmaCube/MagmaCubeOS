@@ -8,8 +8,6 @@
 #include "../../include/cpu/idt_load.h"
 #include "../../include/cpu/interrupts.h"
 
-extern void isr0();
-
 typedef struct{
     uint16_t offset_low;
     uint16_t selector;
