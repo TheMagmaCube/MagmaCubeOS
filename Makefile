@@ -19,6 +19,8 @@ all:
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/cpu/interrupts.s -o ./build/interrupts.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pit.c -o ./build/pit.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pic.c -o ./build/pic.o
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pic_IO_in.s -o ./build/pic_IO_in.s
+	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pic_IO_out.s -o ./build/pic_IO_out.s
 	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt.o ./build/gdt_load.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/isr.o ./build/interrupts.o ./build/pit.o ./build/pic.o
 	@ gcc -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/entry.s -o ./build/entry.o
 	@ gcc -I./source/kernel/lib/include -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/kernel.c -o ./build/kernel.o

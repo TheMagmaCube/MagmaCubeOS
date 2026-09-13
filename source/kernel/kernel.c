@@ -7,6 +7,8 @@
 #include "./lib/include/terminal/terminal.h"
 #include "./lib/include/cpu/gdt.h"
 #include "./lib/include/cpu/idt.h"
+#include "./lib/include/interrupt/pic.h"
+
 #include <stdint.h>
 
 
@@ -22,6 +24,11 @@ int kernel_main(framebuffer* fb_from_bootloader){
     //Initializing idt
 
     idt_init();
+
+    //Initializing pic
+
+    pic_values_init();
+    pic_init();
 
     //Initializing local framebufer variable
 
