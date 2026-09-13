@@ -5,7 +5,7 @@
 .extern eoi_io_out
 
 isr0:
-
+    hlt
     call eoi_io_out
 
     iretq

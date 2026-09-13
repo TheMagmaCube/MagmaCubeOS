@@ -10,8 +10,6 @@
 #include "./lib/include/interrupt/pic.h"
 #include "./lib/include/interrupt/pit.h"
 
-#include <stdint.h>
-
 
 //Main kernel loop
 //Getting parameters about GOP from entry.s
@@ -54,13 +52,6 @@ int kernel_main(framebuffer* fb_from_bootloader){
     terminal t;
 
     init_terminal(&t, fb.bpp_mode, fb.address, fb.width, fb.height);
-
-
-    volatile uint32_t a = 1;
-    volatile uint32_t b = 0;
-
-    volatile uint32_t c = a / b;
-
 
 
     while(1){

@@ -24,7 +24,7 @@ all:
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pit_IO_in.s -o ./build/pit_IO_in.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/interrupt/pit_IO_out.s -o ./build/pit_IO_out.o
 	@ gcc -ffreestanding -m64 -O0 -mno-red-zone -mabi=ms -c ./source/kernel/lib/src/cpu/EOI_IO_out.s -o ./build/EOI_IO_out.o
-	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt.o ./build/gdt_load.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/isr.o ./build/interrupts.o ./build/pit.o ./build/pic.o ./build/pic_IO_in.o ./build/pic_IO_out.o ./build/pit_IO_in.o ./build/pit_IO_out.o ./build/EOI_IO_out.o
+	@ ar rcs ./build/magmalib.a ./build/framebuffer.o ./build/screen_manager.o ./build/font_engine.o ./build/font_composer.o ./build/ps2_keyboard_io.o ./build/ps2_keyboard_driver.o ./build/terminal.o ./build/unit.o ./build/gdt.o ./build/gdt_load.o ./build/context_switch.o ./build/idt.o ./build/idt_load.o ./build/interrupts.o ./build/pit.o ./build/pic.o ./build/pic_IO_in.o ./build/pic_IO_out.o ./build/pit_IO_in.o ./build/pit_IO_out.o ./build/EOI_IO_out.o
 	@ gcc -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/entry.s -o ./build/entry.o
 	@ gcc -I./source/kernel/lib/include -ffreestanding -m64 -O2 -mno-red-zone -mabi=ms -c ./source/kernel/kernel.c -o ./build/kernel.o
 	@ ld -nostdlib -z max-page-size=0x1000 -T ./linkers/link.ld ./build/entry.o ./build/kernel.o ./build/magmalib.a -o ./build/kernel.elf

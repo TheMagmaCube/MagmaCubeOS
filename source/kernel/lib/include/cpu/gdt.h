@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "../../include/cpu/gdt_load.h"
 
 typedef struct{
 

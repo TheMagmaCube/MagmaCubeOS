@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "../../include/cpu/idt_load.h"
+#include "../../include/cpu/interrupts.h"
 
 typedef struct{
     uint16_t offset_low;

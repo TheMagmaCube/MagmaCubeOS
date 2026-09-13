@@ -33,7 +33,7 @@ void pit_values_init(){
 
     pit_instance.base_value_clock = 1193182;
     pit_instance.target_value_clock = 100;
-    pit_instance.target_value_clock_valid = pit_instance.base_value_clock / 100;
+    pit_instance.target_value_clock_valid = pit_instance.base_value_clock / 1;
 
     pit_instance.startup_command = 0x36;
 

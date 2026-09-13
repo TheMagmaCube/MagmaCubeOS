@@ -9,12 +9,12 @@
 #include "../../include/cpu/interrupts.h"
 
 typedef struct{
-
+    uint16_t offset_low;
     uint16_t selector;
+
     uint8_t ist;
     uint8_t type_attr;
 
-    uint16_t offset_low;
     uint16_t offset_mid;
     uint32_t offset_high;
 
@@ -49,7 +49,7 @@ void idt_init(){
     idt_set_irq(0, (uint64_t)isr0, idt_instance);
 
     //PIC timer interrupt
-    idt_set_irq(20, (uint64_t)isr0, idt_instance);
+    idt_set_irq(32, (uint64_t)isr0, idt_instance);
 
     idt_ptr.base = (uint64_t)&idt_instance;
     idt_ptr.limit = sizeof(idt_instance) -1;
