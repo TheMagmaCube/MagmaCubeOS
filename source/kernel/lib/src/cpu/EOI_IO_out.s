@@ -1,9 +1,12 @@
 .intel_syntax noprefix
 .section .text
-.global EOI_IO_out
+.global eoi_io_out
 
-EOI_IO_out:
+eoi_io_out:
 
-    out 0x20, 0x20
+    mov dx, 0x20
+    mov al, 0x20
+
+    out dx, al
 
     ret

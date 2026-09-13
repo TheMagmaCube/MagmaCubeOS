@@ -7,6 +7,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-void EOI_IO_out();
+void eoi_io_out(void);
 
 #endif
