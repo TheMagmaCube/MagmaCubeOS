@@ -2,8 +2,10 @@
 .section .text
 .global isr0
 
+extern EOI_IO_out
+
 isr0:
 
-    hlt
+    EOI_IO_out
 
     iretq

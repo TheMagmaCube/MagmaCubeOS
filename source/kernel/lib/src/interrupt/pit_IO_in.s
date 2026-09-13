@@ -1,12 +1,9 @@
 .intel_syntax noprefix
 .section .text
-.global pic_IO_out
+.global pit_IO_in
 
-pic_IO_out:
+pit_IO_in:
     mov r8, cx
-    mov r9, dx
-
-    out r8, r9
+    in r9, r8
 
     ret
-

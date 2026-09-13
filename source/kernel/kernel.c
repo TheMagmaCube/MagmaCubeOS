@@ -8,6 +8,7 @@
 #include "./lib/include/cpu/gdt.h"
 #include "./lib/include/cpu/idt.h"
 #include "./lib/include/interrupt/pic.h"
+#include "./lib/include/interrupt/pit.h"
 
 #include <stdint.h>
 
@@ -29,6 +30,11 @@ int kernel_main(framebuffer* fb_from_bootloader){
 
     pic_values_init();
     pic_init();
+
+    //Initializing pit
+
+    pit_values_init();
+    pit_init();
 
     //Initializing local framebufer variable
 

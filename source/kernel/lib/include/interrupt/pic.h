@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "../../include/interrupt/pic_IO_out.h"
+#include "../../include/interrupt/pic_IO_in.h"
 
 typedef struct{
 
