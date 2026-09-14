@@ -46,10 +46,14 @@ void idt_init(){
     }
 
     //divide zero
-    idt_set_irq(0, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x00, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x06, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x08, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x0D, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x0E, (uint64_t)isr0, idt_instance);
 
     //PIC timer interrupt
-    idt_set_irq(32, (uint64_t)isr0, idt_instance);
+    idt_set_irq(0x20, (uint64_t)isr0, idt_instance);
 
     idt_ptr.base = (uint64_t)&idt_instance;
     idt_ptr.limit = sizeof(idt_instance) -1;

@@ -33,7 +33,7 @@ void pit_values_init(){
 
     pit_instance.base_value_clock = 1193182;
     pit_instance.target_value_clock = 100;
-    pit_instance.target_value_clock_valid = pit_instance.base_value_clock / 1;
+    pit_instance.target_value_clock_valid = pit_instance.base_value_clock / 100;
 
     pit_instance.startup_command = 0x36;
 
@@ -48,8 +48,8 @@ void pit_init(){
 
     //Sending target_value_clock;
 
-    pit_IO_out(pit_instance.channel_command, pit_instance.target_value_clock_valid & 0xFF);
+    pit_IO_out(pit_instance.channel_zero, pit_instance.target_value_clock_valid & 0xFF);
 
-    pit_IO_out(pit_instance.channel_command, (pit_instance.target_value_clock_valid) >> 8 & 0xFF);
+    pit_IO_out(pit_instance.channel_zero, (pit_instance.target_value_clock_valid) >> 8 & 0xFF);
 
 }

@@ -20,10 +20,12 @@ typedef struct{
     //values
 
     uint8_t ICW1;
-    uint8_t first_irq;
-    uint8_t eight_irq;
+    uint8_t master_vector_offset;
+    uint8_t slave_vector_offset;
 
     uint8_t x86_mode;
+
+    uint8_t IMR;
 
 } pic;
 
@@ -41,11 +43,19 @@ void pic_values_init(){
 
     //values
 
-    pic_instance.ICW1 = 0x11;
-    pic_instance.first_irq = 0x20;
-    pic_instance.eight_irq = 0x28;
+    //For both pic enabled
+    //pic_instance.ICW1 = 0x11;
+
+    //For only master pic enabled
+    pic_instance.ICW1 = 0x13;
+
+    pic_instance.master_vector_offset = 0x20;
+    pic_instance.slave_vector_offset = 0x28;
 
     pic_instance.x86_mode = 0x01;
+
+    //Value for enable access for IRQ0 line
+    pic_instance.IMR = 0xFE;
 
 }
 
@@ -55,13 +65,14 @@ void pic_init(){
     pic_IO_out(pic_instance.PIC_Master_Command, pic_instance.ICW1);
 
     //ICW2
-    pic_IO_out(pic_instance.PIC_Master_Data, pic_instance.first_irq);
+    pic_IO_out(pic_instance.PIC_Master_Data, pic_instance.master_vector_offset);
 
     //ICW3
 
     //ICW4
     pic_IO_out(pic_instance.PIC_Master_Data, pic_instance.x86_mode);
 
-
+    //Enable access for IRQ0 line
+    pic_IO_out(pic_instance.PIC_Master_Data, pic_instance.IMR);
 
 }

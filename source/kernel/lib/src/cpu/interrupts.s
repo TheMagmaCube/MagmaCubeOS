@@ -5,7 +5,13 @@
 .extern eoi_io_out
 
 isr0:
-    hlt
+
+    #push rax
+    #push rdx
+
     call eoi_io_out
+
+    #pop rdx
+    #pop rax
 
     iretq

@@ -9,6 +9,7 @@
 #include "./lib/include/cpu/idt.h"
 #include "./lib/include/interrupt/pic.h"
 #include "./lib/include/interrupt/pit.h"
+#include <stdint.h>
 
 
 //Main kernel loop
